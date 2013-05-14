@@ -147,8 +147,8 @@ print config.export("json")
 }
 ```
 ## running tests ##
-$ py.test tests.py
 ```
+$ py.test tests.py
 ======================================================================================================== test session starts ========================================================================================================
 platform linux2 -- Python 2.7.3 -- pytest-2.3.5
 collected 9 items 
