@@ -20,7 +20,6 @@ class IniHandler(BaseHandler):
     def load(self, file_):
         config = KaptanIniParser()
         config.read(file_)
-        print config.as_dict()
         return config.as_dict()
 
     def dump(self, file_):
