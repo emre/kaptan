@@ -1,7 +1,7 @@
 ## kaptan ##
 
 
-configuration manager™
+configuration manager.
 
 <img src="https://raw.github.com/emre/kaptan/master/sparrow.gif">
 
