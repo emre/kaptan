@@ -33,3 +33,9 @@ nosetests.xml
 .mr.developer.cfg
 .project
 .pydevproject
+
+.idea
+.idea/*
+temp.py
+a.ini
+dev_config.py
