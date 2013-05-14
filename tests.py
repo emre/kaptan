@@ -66,9 +66,7 @@ class KaptanTests(unittest.TestCase):
 
     def test_yaml_handler(self):
         config = kaptan.Kaptan(handler='yaml')
-        print (self.__get_config_data())
         config.import_config(yaml.dump(self.__get_config_data()))
-        print config.configuration_data
         self.assertEqual(config.get("debug"), False)
 
     def test_ini_handler(self):
@@ -106,7 +104,6 @@ PAGINATION = {
 
         config = kaptan.Kaptan(handler='file')
         config.import_config('temp')
-        print config.configuration_data, '???'
 
         self.assertEqual(
             config.get("PAGINATION.limit"),
