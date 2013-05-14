@@ -1,7 +1,10 @@
 ## kaptan ##
 
 
-configuration manager for python projects
+configuration manager™
+
+<img src="https://raw.github.com/emre/kaptan/master/sparrow.gif">
+
 
 ### installation ###
 
@@ -143,4 +146,4 @@ print config.export("json")
     "redis_uri": "redis://localhost:6379/0"
 }
 ```
-    
+
