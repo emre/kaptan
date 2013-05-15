@@ -1,5 +1,5 @@
 ## kaptan ##
-
+[![Build Status](https://drone.io/github.com/emre/kaptan/status.png)](https://drone.io/github.com/emre/kaptan/latest)
 
 configuration manager.
 
