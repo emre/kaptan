@@ -23,7 +23,6 @@ class Kaptan(object):
 
     def upsert(self, key, value):
         self.configuration_data.update({key: value})
-
         return self
 
     def import_config(self, value):
