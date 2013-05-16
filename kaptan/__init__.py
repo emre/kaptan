@@ -21,12 +21,8 @@ class Kaptan(object):
         self.configuration_data = dict()
         self.handler = self.HANDLER_MAP[handler]()
 
-    def get(self, config_key):
-        return self.configuration_data.get(config_key)
-
     def upsert(self, key, value):
         self.configuration_data.update({key: value})
-
         return self
 
     def import_config(self, value):
