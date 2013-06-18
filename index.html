@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Kaptan : configuration manager in your pocket." />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Kaptan</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/emre/kaptan">View on GitHub</a>
+
+          <h1 id="project_title">Kaptan</h1>
+          <h2 id="project_tagline">configuration manager in your pocket.</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/emre/kaptan/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/emre/kaptan/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h2>
+<a name="kaptan" class="anchor" href="#kaptan"><span class="octicon octicon-link"></span></a>kaptan</h2>
+
+<p>configuration manager.</p>
+
+<p><img src="https://raw.github.com/emre/kaptan/master/sparrow.gif"></p>
+
+<h3>
+<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>installation</h3>
+
+<pre><code>pip install kaptan
+</code></pre>
+
+<p>or if you like 90s:</p>
+
+<pre><code>easy_install kaptan
+</code></pre>
+
+<p>or add kaptan directory to the your path.</p>
+
+<h3>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>usage</h3>
+
+<p><strong>supported handlers</strong></p>
+
+<pre><code>- dict
+- json
+- yaml
+- .ini
+- python file
+</code></pre>
+
+<p><strong>default (dict) handler</strong></p>
+
+<div class="highlight"><pre><span class="n">config</span> <span class="o">=</span> <span class="n">kaptan</span><span class="o">.</span><span class="n">Kaptan</span><span class="p">()</span>
+<span class="n">config</span><span class="o">.</span><span class="n">import_config</span><span class="p">({</span>
+    <span class="s">'environment'</span><span class="p">:</span> <span class="s">'DEV'</span><span class="p">,</span>
+    <span class="s">'redis_uri'</span><span class="p">:</span> <span class="s">'redis://localhost:6379/0'</span><span class="p">,</span>
+    <span class="s">'debug'</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
+    <span class="s">'pagination'</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s">'per_page'</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+        <span class="s">'limit'</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span>
+    <span class="p">}</span>
+<span class="p">})</span>
+
+<span class="k">print</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">"pagination.limit"</span><span class="p">)</span>
+
+<span class="c">#output: 20</span>
+</pre></div>
+
+<p><strong>json handler</strong></p>
+
+<div class="highlight"><pre><span class="n">config</span> <span class="o">=</span> <span class="n">kaptan</span><span class="o">.</span><span class="n">Kaptan</span><span class="p">(</span><span class="n">handler</span><span class="o">=</span><span class="s">"json"</span><span class="p">)</span>
+<span class="n">config</span><span class="o">.</span><span class="n">import_config</span><span class="p">(</span><span class="s">'{"everything": 42}'</span><span class="p">)</span>
+
+<span class="k">print</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">"everything"</span><span class="p">)</span>
+<span class="c"># output: 42</span>
+</pre></div>
+
+<p><strong>yaml handler</strong></p>
+
+<div class="highlight"><pre><span class="n">config</span> <span class="o">=</span> <span class="n">kaptan</span><span class="o">.</span><span class="n">Kaptan</span><span class="p">(</span><span class="n">handler</span><span class="o">=</span><span class="s">"yaml"</span><span class="p">)</span>
+<span class="n">config</span><span class="o">.</span><span class="n">import_config</span><span class="p">(</span><span class="s">"""</span>
+<span class="s">product:</span>
+<span class="s">  price:</span>
+<span class="s">    value: 12.65</span>
+<span class="s">    currency_list:</span>
+<span class="s">      - TL</span>
+<span class="s">      - EURO</span>
+<span class="s">"""</span><span class="p">)</span>
+<span class="k">print</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">"product.price.currency_list.0"</span><span class="p">)</span>
+<span class="c"># output: TL</span>
+</pre></div>
+
+<p><strong>.ini handler</strong></p>
+
+<p>config.ini</p>
+
+<pre><code>[development]
+database_uri = mysql://root:123456@localhost/posts
+
+[production]
+database_uri = mysql://poor_user:poor_password@localhost/poor_posts
+</code></pre>
+
+<div class="highlight"><pre><span class="n">config</span> <span class="o">=</span> <span class="n">kaptan</span><span class="o">.</span><span class="n">Kaptan</span><span class="p">(</span><span class="n">handler</span><span class="o">=</span><span class="s">"ini"</span><span class="p">)</span>
+<span class="n">config</span><span class="o">.</span><span class="n">import_config</span><span class="p">(</span><span class="s">'config.ini'</span><span class="p">)</span>
+
+<span class="k">print</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">"production.database_uri"</span><span class="p">)</span>
+<span class="c">#output: mysql://poor_user:poor_password@localhost/poor_posts</span>
+</pre></div>
+
+<p><strong>file handler</strong></p>
+
+<p>config.py</p>
+
+<div class="highlight"><pre><span class="n">DATABASE</span> <span class="o">=</span> <span class="s">'mysql://root:123456@localhost/posts'</span>
+<span class="n">DEBUG</span> <span class="o">=</span> <span class="bp">False</span>
+<span class="n">PAGINATION</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">'per_page'</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="s">'limit'</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+
+<div class="highlight"><pre><span class="n">config</span> <span class="o">=</span> <span class="n">kaptan</span><span class="o">.</span><span class="n">Kaptan</span><span class="p">(</span><span class="n">handler</span><span class="o">=</span><span class="s">"file"</span><span class="p">)</span>
+<span class="n">config</span><span class="o">.</span><span class="n">import_config</span><span class="p">(</span><span class="s">'config'</span><span class="p">)</span>
+
+<span class="k">print</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">"DEBUG"</span><span class="p">)</span>
+<span class="c"># output: False</span>
+</pre></div>
+
+<h2>
+<a name="exporting-configuration" class="anchor" href="#exporting-configuration"><span class="octicon octicon-link"></span></a>exporting configuration</h2>
+
+<div class="highlight"><pre><span class="n">config</span> <span class="o">=</span> <span class="n">kaptan</span><span class="o">.</span><span class="n">Kaptan</span><span class="p">(</span><span class="n">handler</span><span class="o">=</span><span class="s">"file"</span><span class="p">)</span>
+<span class="n">config</span><span class="o">.</span><span class="n">import_config</span><span class="p">({</span>
+    <span class="s">'environment'</span><span class="p">:</span> <span class="s">'DEV'</span><span class="p">,</span>
+    <span class="s">'redis_uri'</span><span class="p">:</span> <span class="s">'redis://localhost:6379/0'</span><span class="p">,</span>
+    <span class="s">'debug'</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
+    <span class="s">'pagination'</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s">'per_page'</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+        <span class="s">'limit'</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span>
+    <span class="p">}</span>
+<span class="p">})</span>
+
+</pre></div>
+
+<div class="highlight"><pre><span class="k">print</span> <span class="n">config</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="s">"yaml"</span><span class="p">)</span>
+</pre></div>
+
+<p><strong>output</strong>:</p>
+
+<pre><code>debug: false
+environment: DEV
+pagination: {limit: 20, per_page: 10}
+redis_uri: redis://localhost:6379/0
+</code></pre>
+
+<div class="highlight"><pre><span class="k">print</span> <span class="n">config</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="s">"json"</span><span class="p">)</span>
+</pre></div>
+
+<p><strong>output</strong>:</p>
+
+<pre><code>{
+    "environment": "DEV",
+    "debug": false,
+    "pagination": {
+        "per_page": 10,
+        "limit": 20
+    },
+    "redis_uri": "redis://localhost:6379/0"
+}
+</code></pre>
+
+<h2>
+<a name="running-tests" class="anchor" href="#running-tests"><span class="octicon octicon-link"></span></a>running tests</h2>
+
+<pre><code>$ py.test tests.py
+======================================================================================================== test session starts ========================================================================================================
+platform linux2 -- Python 2.7.3 -- pytest-2.3.5
+collected 9 items 
+
+tests.py .........
+
+===================================================================================================== 9 passed in 0.06 seconds ======================================================================================================
+</code></pre>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Kaptan maintained by <a href="https://github.com/emre">emre</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
