@@ -43,6 +43,18 @@ class KaptanTests(unittest.TestCase):
 
         self.assertEqual(config.get('servers.0'), 'redis1')
 
+    def test_keyerror(self):
+        config = kaptan.Kaptan()
+        config.import_config(self.__get_config_data())
+
+        self.assertRaises(KeyError, config.get, 'doesnotexist')
+
+    def test_default(self):
+        config = kaptan.Kaptan()
+        config.import_config(self.__get_config_data())
+
+        self.assertEqual(config.get('doesnotexist', 'defaultvalue'), 'defaultvalue')
+
     def test_upsert(self):
         config = kaptan.Kaptan()
         config.import_config(self.__get_config_data())
