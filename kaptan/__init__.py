@@ -7,6 +7,10 @@ from handlers.file_handler import FileHandler
 from handlers.ini_handler import IniHandler
 
 
+# An unique object we can check against.
+SENTINEL = object()
+
+
 class Kaptan(object):
 
     HANDLER_MAP = {
@@ -29,11 +33,11 @@ class Kaptan(object):
         self.configuration_data = self.handler.load(value)
         return self
 
-    def get(self, key):
+    def get(self, key, default=SENTINEL):
         current_data = self.configuration_data
         for chunk in key.split('.'):
             try:
-                current_data = current_data.get(chunk, {})
+                current_data = current_data.get(chunk, SENTINEL)
             except AttributeError as error:
                 if isinstance(current_data, list):
                     try:
@@ -44,6 +48,11 @@ class Kaptan(object):
                     return current_data[chunk]
                 else:
                     raise error
+            else:
+                if current_data is SENTINEL:
+                    if default is SENTINEL:
+                        raise KeyError(key)
+                    return default
 
         return current_data
 
