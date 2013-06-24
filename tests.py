@@ -112,3 +112,19 @@ PAGINATION = {
 
         os.unlink(temp_name)
 
+    def test_invalid_key(self):
+        config = kaptan.Kaptan()
+        config.import_config(self.__get_config_data())
+
+        self.assertRaises(KeyError, config.get, 'invalidkey')
+        self.assertRaises(KeyError, config.get, 'invaliddict.invalidkey')
+
+    def test_invalid_key_with_default(self):
+        config = kaptan.Kaptan()
+        config.import_config(self.__get_config_data())
+
+        self.assertEqual(config.get("invalid_key", 'default_value'), 'default_value')
+        self.assertEqual(config.get("invalid_key.bar.baz", 'default_value'), 'default_value')
+
+
+

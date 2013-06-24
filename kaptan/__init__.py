@@ -29,7 +29,7 @@ class Kaptan(object):
         self.configuration_data = self.handler.load(value)
         return self
 
-    def get(self, key):
+    def get(self, key, default=None):
         current_data = self.configuration_data
         for chunk in key.split('.'):
             try:
@@ -43,8 +43,15 @@ class Kaptan(object):
 
                     return current_data[chunk]
                 else:
-                    raise error
+                    # for multi dimensional configs like foo.bar.baz
+                    if default:
+                        return default
+                    raise KeyError(key)
 
+        if current_data == {}:
+            if default:
+                return default
+            raise KeyError(key)
         return current_data
 
     def export(self, handler=None):

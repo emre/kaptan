@@ -2,7 +2,7 @@ from distutils.core import setup
 
 setup(
     name='kaptan',
-    version='0.3',
+    version='0.4',
     packages=['kaptan', 'kaptan.handlers'],
     url='http://github.com/emre/kaptan',
     license='MIT',
