@@ -26,6 +26,18 @@ class KaptanTests(unittest.TestCase):
 
         self.assertEqual('debug' in config.configuration_data, True)
 
+    def test_main_get(self):
+        config = kaptan.Kaptan()
+        config.import_config({
+            'show_comments': True,
+            'entry_count': 10,
+        })
+
+        self.assertEqual(config.get("entry_count", 25), 10)
+        self.assertEqual(config.get("entry_count"), 10)
+        self.assertEqual(config.get("show_comments", None), True)
+        self.assertEqual(config.get("show_comments", False), True)
+
     def test_nested_configuration(self):
         config = kaptan.Kaptan()
         config.import_config({
