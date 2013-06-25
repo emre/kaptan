@@ -6,6 +6,8 @@ from handlers.yaml_handler import YamlHandler
 from handlers.file_handler import FileHandler
 from handlers.ini_handler import IniHandler
 
+SENTINEL = object()
+
 
 class Kaptan(object):
 
@@ -29,7 +31,7 @@ class Kaptan(object):
         self.configuration_data = self.handler.load(value)
         return self
 
-    def get(self, key, default=None):
+    def get(self, key, default=SENTINEL):
         current_data = self.configuration_data
         for chunk in key.split('.'):
             try:
@@ -44,15 +46,18 @@ class Kaptan(object):
                     return current_data[chunk]
                 else:
                     # for multi dimensional configs like foo.bar.baz
-                    if default:
-                        return default
-                    raise KeyError(key)
+                    return self.__handle_default_value(key, default)
 
         if current_data == {}:
-            if default:
-                return default
-            raise KeyError(key)
+            return self.__handle_default_value(key, default)
+
         return current_data
+
+    def __handle_default_value(self, key, default):
+        if default == SENTINEL:
+            raise KeyError(key)
+
+        return default
 
     def export(self, handler=None):
         if not handler:

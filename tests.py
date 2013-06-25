@@ -7,6 +7,8 @@ import json
 import yaml
 import os
 
+sentinel = object()
+
 
 class KaptanTests(unittest.TestCase):
 
@@ -125,6 +127,14 @@ PAGINATION = {
 
         self.assertEqual(config.get("invalid_key", 'default_value'), 'default_value')
         self.assertEqual(config.get("invalid_key.bar.baz", 'default_value'), 'default_value')
+
+    def test_default_value_none(self):
+        config = kaptan.Kaptan()
+        config.import_config(self.__get_config_data())
+
+        self.assertEqual(config.get("invalid_key", None), None)
+        self.assertEqual(config.get("invalid_key.bar.baz", None), None)
+
 
 
 
