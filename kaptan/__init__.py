@@ -7,43 +7,6 @@ from handlers.yaml_handler import YamlHandler
 from handlers.file_handler import FileHandler
 from handlers.ini_handler import IniHandler
 
-SENTINEL = object()
-
-
-SENTINEL = object()
-
-
-class Kaptan(object):
-
-    HANDLER_MAP = {
-        'json': JsonHandler,
-        'dict': DictHandler,
-        'yaml': YamlHandler,
-        'file': FileHandler,
-        'ini': IniHandler,
-    }
-
-    def __init__(self, handler='dict'):
-        self.configuration_data = dict()
-        self.handler = self.HANDLER_MAP[handler]()
-
-    def upsert(self, key, value):
-        self.configuration_data.update({key: value})
-        return self
-
-    def import_config(self, value):
-        self.configuration_data = self.handler.load(value)
-        return self
-
-# -*- coding: utf8 -*-
-from collections import Mapping, Sequence
-
-from handlers.json_handler import JsonHandler
-from handlers.dict_handler import DictHandler
-from handlers.yaml_handler import YamlHandler
-from handlers.file_handler import FileHandler
-from handlers.ini_handler import IniHandler
-
 
 SENTINEL = object()
 
