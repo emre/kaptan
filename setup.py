@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='kaptan',
-    version='0.5.1',
+    version='0.5.2',
     packages=['kaptan', 'kaptan.handlers'],
     url='http://github.com/emre/kaptan',
     license='MIT',
