@@ -1,4 +1,4 @@
-from distutils.core import setup
+from setuptools import setup
 
 setup(
     name='kaptan',
@@ -9,5 +9,10 @@ setup(
     author='Emre Yilmaz',
     author_email='mail@emreyilmaz.me',
     description='Configuration Manager',
-    requires=['PyYAML', ],
+    install_requires=['PyYAML', ],
+    entry_points=dict(
+        console_scripts=[
+            'kaptan = kaptan:main',
+        ],
+    ),
 )
