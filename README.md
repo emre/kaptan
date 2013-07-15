@@ -146,6 +146,29 @@ print config.export("json")
     "redis_uri": "redis://localhost:6379/0"
 }
 ```
+## cli ##
+exporting (defaults to json)
+```
+$ echo "environment: DEV" > config.yaml
+$ kaptan config.yaml --export json > config.json
+$ cat config.json
+{"environment": "DEV"}
+```
+getting a value
+```
+$ kaptan config.yaml --key environment
+DEV
+```
+specifying the handler
+```
+$ mv config.yaml config.settings
+$ kaptan config.settings --export json
+Traceback (most recent call last):
+  ...
+RuntimeError: Unable to determine handler
+$ kaptan config.settings --handler yaml --export json
+{"environment": "DEV"}
+```
 ## running tests ##
 ```
 $ py.test tests.py
