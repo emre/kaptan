@@ -1,5 +1,6 @@
 ## kaptan ##
-[![Build Status](https://drone.io/github.com/emre/kaptan/status.png)](https://drone.io/github.com/emre/kaptan/latest)
+[![Build Status](https://drone.io/github.com/emre/kaptan/status.png)](https://drone.io/github.com/emre/kaptan/latest) &nbsp; <img src= "https://pypip.in/v/kaptan/badge.png"> &nbsp; <img src="https://pypip.in/d/kaptan/badge.png">
+
 
 configuration manager.
 
