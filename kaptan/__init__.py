@@ -31,9 +31,11 @@ class Kaptan(object):
         'ini': IniHandler,
     }
 
-    def __init__(self, handler='dict'):
+    def __init__(self, handler=None):
         self.configuration_data = dict()
-        self.handler = self.HANDLER_MAP[handler]()
+        self.handler = None
+        if handler:
+            self.handler = self.HANDLER_MAP[handler]()
 
     def upsert(self, key, value):
         self.configuration_data.update({key: value})
@@ -41,14 +43,15 @@ class Kaptan(object):
 
     def import_config(self, value):
         if not isinstance(value, dict) and os.path.isfile(value):
-            handler = (
-                self.handler or
-                HANDLER_EXT.get(os.path.splitext(value)[1][1:], None)
-            )
-            if not handler:
-                raise RuntimeError("Unable to determine handler")
+            if not self.handler:
+                try:
+                    self.handler = self.HANDLER_MAP[HANDLER_EXT.get(os.path.splitext(value)[1][1:], None)]()
+                except:
+                    raise RuntimeError("Unable to determine handler")
             with open(value) as f:
                 value = f.read()
+        elif isinstance(value, dict):  # load python dict
+            self.handler = self.HANDLER_MAP['dict']()
 
         self.configuration_data = self.handler.load(value)
         return self
