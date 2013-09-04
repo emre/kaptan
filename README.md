@@ -57,7 +57,7 @@ print config.get("everything")
 
 **yaml handler**
 ```python
-config = kaptan.Kaptan(handler="yaml")
+config = kaptan.Kaptan()
 config.import_config("""
 product:
   price:
@@ -69,6 +69,10 @@ product:
 print config.get("product.price.currency_list.0")
 # output: TL
 ```
+
+or you can get from directly from the filename:
+
+config.import_config("configuration.yaml")
 
 **.ini handler**
 
