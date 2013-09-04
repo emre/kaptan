@@ -1,4 +1,6 @@
 # -*- coding: utf8 -*-
+import os
+
 from collections import Mapping, Sequence
 
 from handlers.json_handler import JsonHandler
@@ -9,6 +11,14 @@ from handlers.ini_handler import IniHandler
 
 
 SENTINEL = object()
+
+HANDLER_EXT = {
+    'ini': 'ini',
+    'conf': 'ini',
+    'yaml': 'yaml',
+    'json': 'json',
+    'py': 'file',
+}
 
 
 class Kaptan(object):
@@ -21,15 +31,28 @@ class Kaptan(object):
         'ini': IniHandler,
     }
 
-    def __init__(self, handler='dict'):
+    def __init__(self, handler=None):
         self.configuration_data = dict()
-        self.handler = self.HANDLER_MAP[handler]()
+        self.handler = None
+        if handler:
+            self.handler = self.HANDLER_MAP[handler]()
 
     def upsert(self, key, value):
         self.configuration_data.update({key: value})
         return self
 
     def import_config(self, value):
+        if not isinstance(value, dict) and os.path.isfile(value):
+            if not self.handler:
+                try:
+                    self.handler = self.HANDLER_MAP[HANDLER_EXT.get(os.path.splitext(value)[1][1:], None)]()
+                except:
+                    raise RuntimeError("Unable to determine handler")
+            with open(value) as f:
+                value = f.read()
+        elif isinstance(value, dict):  # load python dict
+            self.handler = self.HANDLER_MAP['dict']()
+
         self.configuration_data = self.handler.load(value)
         return self
 
@@ -78,14 +101,6 @@ class Kaptan(object):
 
         return default
 
-    def export(self, handler=None):
-        if not handler:
-            handler_class = self.handler
-        else:
-            handler_class = self.HANDLER_MAP[handler]()
-
-        return handler_class.dump(self.configuration_data)
-
 
 def main():
     import argparse
@@ -101,18 +116,10 @@ def main():
     parser.add_argument('-k', '--key', action='store',
                         help="config key to get value of")
     args = parser.parse_args()
-    HANDLER_EXT = {
-        'ini': 'ini',
-        'conf': 'ini',
-        'yaml': 'yaml',
-        'json': 'json',
-        'py': 'file',
-    }
-    handler = (args.handler or
-        HANDLER_EXT.get(
-            os.path.splitext(args.config_file)[1][1:],
-            None
-        ))
+    handler = (
+        args.handler or
+        HANDLER_EXT.get(os.path.splitext(args.config_file)[1][1:], None)
+    )
     if not handler:
         raise RuntimeError("Unable to determine handler")
     with open(args.config_file) as f:
