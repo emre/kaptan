@@ -78,12 +78,70 @@ class KaptanTests(unittest.TestCase):
 
         self.assertEqual(config.get("debug"), False)
 
+    def test_json_file_handler(self):
+        json_file_name = os.tmpnam() + ".json"
+        json_file = file(json_file_name, "w")
+        json_file.write("""
+{"development": {
+    "DATABASE_URI": "mysql://root:123456@localhost/posts"
+  },
+  "production": {
+    "DATABASE_URI": "mysql://poor_user:poor_password@localhost/poor_posts"
+  }
+}
+""")
+        json_file.flush()
+
+        config = kaptan.Kaptan(handler='json')
+        config.import_config(json_file.name)
+        print(config.get('production'))
+        self.assertEqual(
+            config.get("production.DATABASE_URI"),
+            'mysql://poor_user:poor_password@localhost/poor_posts'
+        )
+
     def test_yaml_handler(self):
         config = kaptan.Kaptan(handler='yaml')
         config.import_config(yaml.dump(self.__get_config_data()))
         self.assertEqual(config.get("debug"), False)
 
+    def test_yaml_file_handler(self):
+        yaml_file_name = os.tmpnam() + ".yaml"
+        yaml_file = file(yaml_file_name, "w")
+        yaml_file.write("""
+development:
+    DATABASE_URI: mysql://root:123456@localhost/posts
+
+production:
+    DATABASE_URI: mysql://poor_user:poor_password@localhost/poor_posts
+""")
+        yaml_file.flush()
+
+        config = kaptan.Kaptan(handler='yaml')
+        config.import_config(yaml_file.name)
+        print(config.get('production'))
+        self.assertEqual(
+            config.get("production.DATABASE_URI"),
+            'mysql://poor_user:poor_password@localhost/poor_posts'
+        )
+
     def test_ini_handler(self):
+        value = """[development]
+DATABASE_URI = mysql://root:123456@localhost/posts
+
+[production]
+DATABASE_URI = mysql://poor_user:poor_password@localhost/poor_posts
+"""
+
+        config = kaptan.Kaptan(handler='ini')
+        config.import_config(value)
+
+        self.assertEqual(
+            config.get("production.database_uri"),
+            'mysql://poor_user:poor_password@localhost/poor_posts'
+        )
+
+    def test_ini_file_handler(self):
         ini_file_name = os.tmpnam()
         ini_file = file(ini_file_name, "w")
         ini_file.write("""[development]

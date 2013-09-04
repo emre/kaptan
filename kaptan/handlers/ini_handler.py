@@ -1,11 +1,12 @@
 # -*- coding: utf8 -*-
 
 import ConfigParser
+import StringIO
 
 from . import BaseHandler
 
 
-class KaptanIniParser(ConfigParser.ConfigParser):
+class KaptanIniParser(ConfigParser.RawConfigParser):
 
     def as_dict(self):
         d = dict(self._sections)
@@ -17,9 +18,10 @@ class KaptanIniParser(ConfigParser.ConfigParser):
 
 class IniHandler(BaseHandler):
 
-    def load(self, file_):
+    def load(self, value):
         config = KaptanIniParser()
-        config.read(file_)
+        # ConfigParser.ConfigParser wants to read value as file / IO
+        config.readfp(StringIO.StringIO(value))
         return config.as_dict()
 
     def dump(self, file_):
