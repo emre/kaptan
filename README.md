@@ -72,7 +72,9 @@ print config.get("product.price.currency_list.0")
 
 or you can get from directly from the filename:
 
+```python
 config.import_config("configuration.yaml")
+```
 
 **.ini handler**
 
