@@ -98,14 +98,6 @@ class Kaptan(object):
 
         return default
 
-    def export(self, handler=None):
-        if not handler:
-            handler_class = self.handler
-        else:
-            handler_class = self.HANDLER_MAP[handler]()
-
-        return handler_class.dump(self.configuration_data)
-
 
 def main():
     import argparse
