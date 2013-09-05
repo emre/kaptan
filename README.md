@@ -141,6 +141,13 @@ redis_uri: redis://localhost:6379/0
 ```python
 print config.export("json")
 ```
+
+output unindented json. ``.export`` accepts kwargs which pass into [json.dumps](http://docs.python.org/2/library/json.html#json.dump).
+
+```python
+print config.export("json", indent=4)
+```
+
 **output**:
 ```
 {
@@ -153,6 +160,9 @@ print config.export("json")
     "redis_uri": "redis://localhost:6379/0"
 }
 ```
+
+``config.export('yaml')`` also supports the [kwargs for pyyaml](http://pyyaml.org/wiki/PyYAMLDocumentation#Dumper).
+
 ## cli ##
 exporting (defaults to json)
 ```

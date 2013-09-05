@@ -9,5 +9,5 @@ class JsonHandler(BaseHandler):
     def load(self, data):
         return json.loads(data)
 
-    def dump(self, data):
-        return json.dumps(data)
+    def dump(self, data, **kwargs):
+        return json.dumps(data, **kwargs)
