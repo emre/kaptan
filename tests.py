@@ -94,7 +94,6 @@ class KaptanTests(unittest.TestCase):
 
         config = kaptan.Kaptan(handler='json')
         config.import_config(json_file.name)
-        print(config.get('production'))
         self.assertEqual(
             config.get("production.DATABASE_URI"),
             'mysql://poor_user:poor_password@localhost/poor_posts'
@@ -119,7 +118,6 @@ production:
 
         config = kaptan.Kaptan(handler='yaml')
         config.import_config(yaml_file.name)
-        print(config.get('production'))
         self.assertEqual(
             config.get("production.DATABASE_URI"),
             'mysql://poor_user:poor_password@localhost/poor_posts'
@@ -205,6 +203,9 @@ PAGINATION = {
         self.assertEqual(config.get("invalid_key", None), None)
         self.assertEqual(config.get("invalid_key.bar.baz", None), None)
 
+    def test_get_all_config(self):
+        config = kaptan.Kaptan()
+        config.import_config(self.__get_config_data())
 
-
-
+        self.assertIsInstance(config.get(), dict)
+        self.assertIsInstance(config.get(''), dict)
