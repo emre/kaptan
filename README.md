@@ -197,3 +197,9 @@ tests.py .........
 
 ===================================================================================================== 9 passed in 0.06 seconds ======================================================================================================
 ```
+
+## contributors
+- <a href="http://github.com/cenkalti">Cenk Altı</a>
+- <a href="http://github.com/Wessie">Wesley Bitter</a>
+- <a href="http://github.com/marksteve">Mark Steve</a>
+- <a href="http://github.com/tony">Tony Narlock</a>
