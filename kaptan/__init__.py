@@ -72,7 +72,10 @@ class Kaptan(object):
 
         return current_data
 
-    def get(self, key, default=SENTINEL):
+    def get(self, key=None, default=SENTINEL):
+        if not key:  # .get() or .get(''), return full config
+            return self.export('dict')
+
         try:
             try:
                 return self._get(key)
@@ -87,13 +90,13 @@ class Kaptan(object):
                 return default
             raise
 
-    def export(self, handler=None):
+    def export(self, handler=None, **kwargs):
         if not handler:
             handler_class = self.handler
         else:
             handler_class = self.HANDLER_MAP[handler]()
 
-        return handler_class.dump(self.configuration_data)
+        return handler_class.dump(self.configuration_data, **kwargs)
 
     def __handle_default_value(self, key, default):
         if default == SENTINEL:
