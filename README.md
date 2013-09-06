@@ -2,10 +2,7 @@
 [![Build Status](https://drone.io/github.com/emre/kaptan/status.png)](https://drone.io/github.com/emre/kaptan/latest) &nbsp; <img src= "https://pypip.in/v/kaptan/badge.png"> &nbsp; <img src="https://pypip.in/d/kaptan/badge.png">
 
 
-configuration manager.
-
-<img src="https://raw.github.com/emre/kaptan/master/sparrow.gif">
-
+configuration parser.
 
 ### installation ###
 
@@ -197,3 +194,9 @@ tests.py .........
 
 ===================================================================================================== 9 passed in 0.06 seconds ======================================================================================================
 ```
+
+## contributors
+- <a href="http://github.com/cenkalti">Cenk Altı</a>
+- <a href="http://github.com/Wessie">Wesley Bitter</a>
+- <a href="http://github.com/marksteve">Mark Steve</a>
+- <a href="http://github.com/tony">Tony Narlock</a>
