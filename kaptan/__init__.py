@@ -1,4 +1,13 @@
 # -*- coding: utf8 -*-
+"""
+    kaptan
+    ~~~~~~
+
+    configuration parser.
+
+    :copyright: (c) 2011 by the authors and contributors (See AUTHORS file).
+    :license: BSD, see LICENSE for more details.
+"""
 import os
 
 from collections import Mapping, Sequence

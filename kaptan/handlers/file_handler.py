@@ -1,5 +1,11 @@
 # -*- coding: utf8 -*-
+"""
+    kaptan.handlers.file_handler
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+    :copyright: (c) 2011 by the authors and contributors (See AUTHORS file).
+    :license: BSD, see LICENSE for more details.
+"""
 from . import BaseHandler
 
 
