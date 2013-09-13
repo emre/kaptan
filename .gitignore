@@ -39,3 +39,5 @@ nosetests.xml
 temp.py
 a.ini
 dev_config.py
+
+.env
