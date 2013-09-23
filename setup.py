@@ -1,3 +1,11 @@
+"""
+    kaptan
+    ~~~~~~
+
+    :copyright: (c) 2011 by the authors and contributors (See AUTHORS file).
+    :license: BSD, see LICENSE for more details.
+"""
+
 from setuptools import setup
 
 setup(
@@ -5,7 +13,7 @@ setup(
     version='0.5.4',
     packages=['kaptan', 'kaptan.handlers'],
     url='http://github.com/emre/kaptan',
-    license='MIT',
+    license='BSD',
     author='Emre Yilmaz',
     author_email='mail@emreyilmaz.me',
     description='Configuration Manager',

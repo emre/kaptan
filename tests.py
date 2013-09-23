@@ -1,4 +1,11 @@
 # -*- coding: utf8 -*-
+"""
+    kaptan
+    ~~~~~~
+
+    :copyright: (c) 2011 by the authors and contributors (See AUTHORS file).
+    :license: BSD, see LICENSE for more details.
+"""
 
 import unittest
 import kaptan
