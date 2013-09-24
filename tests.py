@@ -109,13 +109,13 @@ class KaptanTests(unittest.TestCase):
             'mysql://poor_user:poor_password@localhost/poor_posts'
         )
 
-    @unittest.skipIf(yaml is None)
+    @unittest.skipIf(yaml is None, 'needs yaml')
     def test_yaml_handler(self):
         config = kaptan.Kaptan(handler='yaml')
         config.import_config(yaml.dump(self.__get_config_data()))
         self.assertFalse(config.get("debug"))
 
-    @unittest.skipIf(yaml is None)
+    @unittest.skipIf(yaml is None, 'needs yaml')
     def test_yaml_file_handler(self):
         yaml_file_name = os.tmpnam() + '.yaml'
         yaml_file = file(yaml_file_name, 'w')
