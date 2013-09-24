@@ -86,7 +86,7 @@ class KaptanTests(unittest.TestCase):
         config = kaptan.Kaptan(handler='json')
         config.import_config(json.dumps(self.__get_config_data()))
 
-        self.assertTrue(config.get('debug'))
+        self.assertFalse(config.get('debug'))
 
     def test_json_file_handler(self):
         json_file_name = os.tmpnam() + '.json'
