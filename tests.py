@@ -14,7 +14,7 @@ import unittest
 
 try:
     import yaml
-except ImportError
+except ImportError:
     yaml = None
 
 import kaptan
