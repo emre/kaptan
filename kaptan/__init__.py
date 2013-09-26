@@ -116,7 +116,7 @@ class Kaptan(object):
 
 def main():
     import argparse
-    import os
+
     parser = argparse.ArgumentParser(
         description='Configuration manager in your pocket')
     parser.add_argument('config_file', action='store',
