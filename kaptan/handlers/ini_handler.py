@@ -3,17 +3,25 @@
     kaptan.handlers.ini_handler
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    :copyright: (c) 2011 by the authors and contributors (See AUTHORS file).
+    :copyright: (c) 2013 by the authors and contributors (See AUTHORS file).
     :license: BSD, see LICENSE for more details.
 """
 
-import ConfigParser
-import StringIO
+from __future__ import print_function, unicode_literals
+
+try:
+    import ConfigParser as configparser
+    from StringIO import StringIO
+
+    configparser.RawConfigParser.read_file = configparser.RawConfigParser.readfp
+except ImportError:  # Python 3
+    import configparser
+    from io import StringIO
 
 from . import BaseHandler
 
 
-class KaptanIniParser(ConfigParser.RawConfigParser):
+class KaptanIniParser(configparser.RawConfigParser):
 
     def as_dict(self):
         d = dict(self._sections)
@@ -28,7 +36,7 @@ class IniHandler(BaseHandler):
     def load(self, value):
         config = KaptanIniParser()
         # ConfigParser.ConfigParser wants to read value as file / IO
-        config.readfp(StringIO.StringIO(value))
+        config.read_file(StringIO(value))
         return config.as_dict()
 
     def dump(self, file_):

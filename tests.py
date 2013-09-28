@@ -8,8 +8,12 @@
     :license: BSD, see LICENSE for more details.
 """
 
+from __future__ import print_function, unicode_literals
+
 import json
 import os
+import os.path
+import tempfile
 import unittest
 
 try:
@@ -25,14 +29,14 @@ sentinel = object()
 
 class KaptanTests(unittest.TestCase):
 
-    def __get_config_data(self):
-        return {
+    def setUp(self):
+        self.config = {
             'debug': False,
         }
 
     def test_configuration_data(self):
         config = kaptan.Kaptan()
-        config.import_config(self.__get_config_data())
+        config.import_config(self.config)
 
         self.assertIn('debug', config.configuration_data)
 
@@ -69,7 +73,7 @@ class KaptanTests(unittest.TestCase):
 
     def test_upsert(self):
         config = kaptan.Kaptan()
-        config.import_config(self.__get_config_data())
+        config.import_config(self.config)
 
         self.assertEqual(config.get('debug'), False)
 
@@ -78,21 +82,20 @@ class KaptanTests(unittest.TestCase):
 
     def test_default_dict_handler(self):
         config = kaptan.Kaptan()
-        config.import_config(self.__get_config_data())
+        config.import_config(self.config)
 
         self.assertFalse(config.configuration_data['debug'])
 
     def test_json_handler(self):
         config = kaptan.Kaptan(handler='json')
-        config.import_config(json.dumps(self.__get_config_data()))
+        config.import_config(json.dumps(self.config))
 
         self.assertFalse(config.get('debug'))
 
     def test_json_file_handler(self):
-        json_file_name = os.tmpnam() + '.json'
-        json_file = file(json_file_name, 'w')
-        json_file.write("""
-{"development": {
+        with tempfile.NamedTemporaryFile(mode='w', suffix='.json',
+                                         delete=False) as fobj:
+            fobj.write("""{"development": {
     "DATABASE_URI": "mysql://root:123456@localhost/posts"
   },
   "production": {
@@ -100,10 +103,8 @@ class KaptanTests(unittest.TestCase):
   }
 }
 """)
-        json_file.flush()
-
         config = kaptan.Kaptan(handler='json')
-        config.import_config(json_file.name)
+        config.import_config(fobj.name)
         self.assertEqual(
             config.get('production.DATABASE_URI'),
             'mysql://poor_user:poor_password@localhost/poor_posts'
@@ -112,24 +113,22 @@ class KaptanTests(unittest.TestCase):
     @unittest.skipIf(yaml is None, 'needs yaml')
     def test_yaml_handler(self):
         config = kaptan.Kaptan(handler='yaml')
-        config.import_config(yaml.dump(self.__get_config_data()))
+        config.import_config(yaml.dump(self.config))
         self.assertFalse(config.get("debug"))
 
     @unittest.skipIf(yaml is None, 'needs yaml')
     def test_yaml_file_handler(self):
-        yaml_file_name = os.tmpnam() + '.yaml'
-        yaml_file = file(yaml_file_name, 'w')
-        yaml_file.write("""
+        with tempfile.NamedTemporaryFile(mode='w', suffix='.yaml',
+                                         delete=False) as fobj:
+            fobj.write("""
 development:
     DATABASE_URI: mysql://root:123456@localhost/posts
 
 production:
     DATABASE_URI: mysql://poor_user:poor_password@localhost/poor_posts
 """)
-        yaml_file.flush()
-
         config = kaptan.Kaptan(handler='yaml')
-        config.import_config(yaml_file.name)
+        config.import_config(fobj.name)
         self.assertEqual(
             config.get('production.DATABASE_URI'),
             'mysql://poor_user:poor_password@localhost/poor_posts'
@@ -152,73 +151,64 @@ DATABASE_URI = mysql://poor_user:poor_password@localhost/poor_posts
         )
 
     def test_ini_file_handler(self):
-        ini_file_name = os.tmpnam()
-        ini_file = file(ini_file_name, 'w')
-        ini_file.write("""[development]
+        with tempfile.NamedTemporaryFile(mode='w', delete=False) as fobj:
+            fobj.write("""[development]
 DATABASE_URI = mysql://root:123456@localhost/posts
 
 [production]
 DATABASE_URI = mysql://poor_user:poor_password@localhost/poor_posts
 """)
-        ini_file.flush()
-
         config = kaptan.Kaptan(handler='ini')
-        config.import_config(ini_file.name)
-
+        config.import_config(fobj.name)
         self.assertEqual(
             config.get('production.database_uri'),
             'mysql://poor_user:poor_password@localhost/poor_posts'
         )
 
     def test_file_handler(self):
-        temp_name = 'temp.py'
-
-        try:
-            py_module = file(temp_name, 'w')
-            py_module.write("""DATABASE = 'mysql://root:123456@localhost/girlz'
+        with tempfile.NamedTemporaryFile(mode='w', suffix='.py',
+                                         dir='.', delete=False) as fobj:
+            fobj.write("""DATABASE = 'mysql://root:123456@localhost/girlz'
 DEBUG = False
 PAGINATION = {
     'per_page': 10,
     'limit': 20,
 }
 """)
-    
-            py_module.flush()
-    
+        try:
+            normalize_name = os.path.basename(fobj.name).rpartition('.')[0]
             config = kaptan.Kaptan(handler='file')
-            config.import_config('temp')
-    
-            self.assertEqual(
-                config.get("PAGINATION.limit"),
-                20,
-            )
+            config.import_config(normalize_name)
+            self.assertEqual(config.get("PAGINATION.limit"), 20)
         finally:
-            os.unlink(temp_name)
+            os.unlink(fobj.name)
 
     def test_invalid_key(self):
         config = kaptan.Kaptan()
-        config.import_config(self.__get_config_data())
+        config.import_config(self.config)
 
         self.assertRaises(KeyError, config.get, 'invalidkey')
         self.assertRaises(KeyError, config.get, 'invaliddict.invalidkey')
 
     def test_invalid_key_with_default(self):
         config = kaptan.Kaptan()
-        config.import_config(self.__get_config_data())
+        config.import_config(self.config)
 
-        self.assertEqual(config.get('invalid_key', 'default_value'), 'default_value')
-        self.assertEqual(config.get('invalid_key.bar.baz', 'default_value'), 'default_value')
+        self.assertEqual(config.get('invalid_key', 'default_value'),
+                         'default_value')
+        self.assertEqual(config.get('invalid_key.bar.baz', 'default_value'),
+                         'default_value')
 
     def test_default_value_none(self):
         config = kaptan.Kaptan()
-        config.import_config(self.__get_config_data())
+        config.import_config(self.config)
 
         self.assertIsNone(config.get("invalid_key", None))
         self.assertIsNone(config.get("invalid_key.bar.baz", None))
 
     def test_get_all_config(self):
         config = kaptan.Kaptan()
-        config.import_config(self.__get_config_data())
+        config.import_config(self.config)
 
         self.assertIsInstance(config.get(), dict)
         self.assertIsInstance(config.get(''), dict)

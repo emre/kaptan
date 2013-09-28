@@ -1,18 +1,13 @@
 ## kaptan ##
-[![Build Status](https://drone.io/github.com/emre/kaptan/status.png)](https://drone.io/github.com/emre/kaptan/latest) &nbsp; <img src= "https://pypip.in/v/kaptan/badge.png"> &nbsp; <img src="https://pypip.in/d/kaptan/badge.png">
 
+[![Build Status](https://drone.io/github.com/emre/kaptan/status.png)](https://drone.io/github.com/emre/kaptan/latest) &nbsp; <img src= "https://pypip.in/v/kaptan/badge.png"> &nbsp; <img src="https://pypip.in/d/kaptan/badge.png">
 
 configuration parser.
 
 ### installation ###
 
-```
-pip install kaptan
-```
-or if you like 90s:
-
-```
-easy_install kaptan
+```sh
+$ pip install kaptan
 ```
 
 or add kaptan directory to the your path.
@@ -76,7 +71,7 @@ config.import_config("configuration.yaml")
 **.ini handler**
 
 config.ini
-```
+```ini
 [development]
 database_uri = mysql://root:123456@localhost/posts
 
@@ -146,7 +141,7 @@ print config.export("json", indent=4)
 ```
 
 **output**:
-```
+```json
 {
     "environment": "DEV",
     "debug": false,
@@ -162,19 +157,19 @@ print config.export("json", indent=4)
 
 ## cli ##
 exporting (defaults to json)
-```
+```sh
 $ echo "environment: DEV" > config.yaml
 $ kaptan config.yaml --export json > config.json
 $ cat config.json
 {"environment": "DEV"}
 ```
 getting a value
-```
+```sh
 $ kaptan config.yaml --key environment
 DEV
 ```
 specifying the handler
-```
+```sh
 $ mv config.yaml config.settings
 $ kaptan config.settings --export json
 Traceback (most recent call last):
@@ -184,19 +179,23 @@ $ kaptan config.settings --handler yaml --export json
 {"environment": "DEV"}
 ```
 ## running tests ##
-```
+
+With `py.test`:
+
+```sh
 $ py.test tests.py
-======================================================================================================== test session starts ========================================================================================================
-platform linux2 -- Python 2.7.3 -- pytest-2.3.5
-collected 9 items 
+```
 
-tests.py .........
+or just:
 
-===================================================================================================== 9 passed in 0.06 seconds ======================================================================================================
+```sh
+$ python -m unittest discover -v
 ```
 
 ## contributors
-- <a href="http://github.com/cenkalti">Cenk Altı</a>
-- <a href="http://github.com/Wessie">Wesley Bitter</a>
-- <a href="http://github.com/marksteve">Mark Steve</a>
-- <a href="http://github.com/tony">Tony Narlock</a>
+
+- [Cenk Altı](http://github.com/cenkalti)
+- [Wesley Bitter](http://github.com/Wessie)
+- [Mark Steve](http://github.com/marksteve)
+- [Tony Narlock](http://github.com/tony)
+- [Berker Peksag](http://github.com/berkerpeksag)
