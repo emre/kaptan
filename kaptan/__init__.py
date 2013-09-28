@@ -5,18 +5,20 @@
 
     configuration parser.
 
-    :copyright: (c) 2011 by the authors and contributors (See AUTHORS file).
+    :copyright: (c) 2013 by the authors and contributors (See AUTHORS file).
     :license: BSD, see LICENSE for more details.
 """
-import os
 
+from __future__ import print_function, unicode_literals
+
+import os
 from collections import Mapping, Sequence
 
-from handlers.json_handler import JsonHandler
-from handlers.dict_handler import DictHandler
-from handlers.yaml_handler import YamlHandler
-from handlers.file_handler import FileHandler
-from handlers.ini_handler import IniHandler
+from .handlers.json_handler import JsonHandler
+from .handlers.dict_handler import DictHandler
+from .handlers.yaml_handler import YamlHandler
+from .handlers.file_handler import FileHandler
+from .handlers.ini_handler import IniHandler
 
 
 SENTINEL = object()
@@ -54,7 +56,8 @@ class Kaptan(object):
         if not isinstance(value, dict) and os.path.isfile(value):
             if not self.handler:
                 try:
-                    self.handler = self.HANDLER_MAP[HANDLER_EXT.get(os.path.splitext(value)[1][1:], None)]()
+                    key = HANDLER_EXT.get(os.path.splitext(value)[1][1:], None)
+                    self.handler = self.HANDLER_MAP[key]()
                 except:
                     raise RuntimeError("Unable to determine handler")
             with open(value) as f:
@@ -88,11 +91,11 @@ class Kaptan(object):
         try:
             try:
                 return self._get(key)
-            except (KeyError):
+            except KeyError:
                 raise KeyError(key)
-            except (ValueError):
+            except ValueError:
                 raise ValueError("Sequence index not an integer")
-            except (IndexError):
+            except IndexError:
                 raise IndexError("Sequence index out of range")
         except (KeyError, ValueError, IndexError):
             if default is not SENTINEL:
@@ -110,7 +113,6 @@ class Kaptan(object):
     def __handle_default_value(self, key, default):
         if default == SENTINEL:
             raise KeyError(key)
-
         return default
 
 
@@ -138,6 +140,7 @@ def main():
         config = Kaptan(handler=handler)
         config.import_config(f.read())
     if args.key:
-        print config.get(args.key)
+        print(config.get(args.key))
     else:
-        print config.export(args.export)
+        print(config.export(args.export))
+    parser.exit(0)

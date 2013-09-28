@@ -3,9 +3,11 @@
     kaptan.handlers.dict_handler
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    :copyright: (c) 2011 by the authors and contributors (See AUTHORS file).
+    :copyright: (c) 2013 by the authors and contributors (See AUTHORS file).
     :license: BSD, see LICENSE for more details.
 """
+
+from __future__ import print_function, unicode_literals
 
 from . import BaseHandler
 
