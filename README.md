@@ -1,6 +1,6 @@
 ## kaptan ##
 
-[![Build Status](https://drone.io/github.com/emre/kaptan/status.png)](https://drone.io/github.com/emre/kaptan/latest) &nbsp; <img src= "https://pypip.in/v/kaptan/badge.png"> &nbsp; <img src="https://pypip.in/d/kaptan/badge.png">
+[![Build Status](https://travis-ci.org/emre/kaptan.png)](https://travis-ci.org/emre/kaptan)&nbsp; <img src= "https://pypip.in/v/kaptan/badge.png"> &nbsp; <img src="https://pypip.in/d/kaptan/badge.png">
 
 configuration parser.
 
