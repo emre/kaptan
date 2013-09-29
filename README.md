@@ -4,7 +4,7 @@
 
 configuration parser.
 
-### installation ###
+### installation 
 
 ```sh
 $ pip install kaptan
