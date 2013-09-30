@@ -13,16 +13,18 @@ $ pip install kaptan
 or add kaptan directory to the your path.
 
 ### usage ###
+
 **supported handlers**
 
-    - dict
-    - json
-    - yaml
-    - .ini
-    - python file
+- dict
+- json
+- yaml
+- .ini
+- python file
     
 **default (dict) handler**
-```python
+
+```py
 config = kaptan.Kaptan()
 config.import_config({
     'environment': 'DEV',
@@ -36,10 +38,12 @@ config.import_config({
 
 print config.get("pagination.limit")
 
-#output: 20
+# output: 20
 ```
+
 **json handler**
-```python
+
+```py
 config = kaptan.Kaptan(handler="json")
 config.import_config('{"everything": 42}')
 
@@ -48,7 +52,8 @@ print config.get("everything")
 ```
 
 **yaml handler**
-```python
+
+```py
 config = kaptan.Kaptan()
 config.import_config("""
 product:
@@ -64,13 +69,14 @@ print config.get("product.price.currency_list.0")
 
 or you can get from directly from the filename:
 
-```python
+```py
 config.import_config("configuration.yaml")
 ```
 
 **.ini handler**
 
 config.ini
+
 ```ini
 [development]
 database_uri = mysql://root:123456@localhost/posts
@@ -79,17 +85,19 @@ database_uri = mysql://root:123456@localhost/posts
 database_uri = mysql://poor_user:poor_password@localhost/poor_posts
 ```
 
-```python
+```py
 config = kaptan.Kaptan(handler="ini")
 config.import_config('config.ini')
 
 print config.get("production.database_uri")
-#output: mysql://poor_user:poor_password@localhost/poor_posts
+# output: mysql://poor_user:poor_password@localhost/poor_posts
 ```
+
 **file handler**
 
 config.py
-```python
+
+```py
 DATABASE = 'mysql://root:123456@localhost/posts'
 DEBUG = False
 PAGINATION = {
@@ -97,15 +105,18 @@ PAGINATION = {
     'limit': 20,
 }
 ```
-```python
+
+```py
 config = kaptan.Kaptan(handler="file")
 config.import_config('config')
 
 print config.get("DEBUG")
 # output: False
 ```
-## exporting configuration ##
-```python
+
+## exporting configuration
+
+```py
 config = kaptan.Kaptan(handler="file")
 config.import_config({
     'environment': 'DEV',
@@ -119,28 +130,32 @@ config.import_config({
 
 ```
 
-```python
+```py
 print config.export("yaml")
 ```
+
 **output**:
-```
+
+```yaml
 debug: false
 environment: DEV
 pagination: {limit: 20, per_page: 10}
 redis_uri: redis://localhost:6379/0
 ```
 
-```python
+```py
 print config.export("json")
 ```
 
-output unindented json. ``.export`` accepts kwargs which pass into [json.dumps](http://docs.python.org/2/library/json.html#json.dump).
+output unindented json. ``.export`` accepts kwargs which pass into
+[json.dumps](http://docs.python.org/2/library/json.html#json.dump).
 
-```python
+```py
 print config.export("json", indent=4)
 ```
 
 **output**:
+
 ```json
 {
     "environment": "DEV",
@@ -155,20 +170,26 @@ print config.export("json", indent=4)
 
 ``config.export('yaml')`` also supports the [kwargs for pyyaml](http://pyyaml.org/wiki/PyYAMLDocumentation#Dumper).
 
-## cli ##
+## cli
+
 exporting (defaults to json)
+
 ```sh
 $ echo "environment: DEV" > config.yaml
 $ kaptan config.yaml --export json > config.json
 $ cat config.json
 {"environment": "DEV"}
 ```
+
 getting a value
+
 ```sh
 $ kaptan config.yaml --key environment
 DEV
 ```
+
 specifying the handler
+
 ```sh
 $ mv config.yaml config.settings
 $ kaptan config.settings --export json
@@ -178,7 +199,8 @@ RuntimeError: Unable to determine handler
 $ kaptan config.settings --handler yaml --export json
 {"environment": "DEV"}
 ```
-## running tests ##
+
+## running tests
 
 With `py.test`:
 
