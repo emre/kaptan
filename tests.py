@@ -137,6 +137,24 @@ production:
             'mysql://poor_user:poor_password@localhost/poor_posts'
         )
 
+    @unittest.skipIf(yaml is None, 'needs yaml')
+    def test_yml_file_handler(self):
+        with tempfile.NamedTemporaryFile(mode='w', suffix='.yml',
+                                         delete=False) as fobj:
+            fobj.write("""
+development:
+    DATABASE_URI: mysql://root:123456@localhost/posts
+
+production:
+    DATABASE_URI: mysql://poor_user:poor_password@localhost/poor_posts
+""")
+        config = kaptan.Kaptan()
+        config.import_config(fobj.name)
+        self.assertEqual(
+            config.get('production.DATABASE_URI'),
+            'mysql://poor_user:poor_password@localhost/poor_posts'
+        )
+
     def test_ini_handler(self):
         value = """[development]
 DATABASE_URI = mysql://root:123456@localhost/posts
