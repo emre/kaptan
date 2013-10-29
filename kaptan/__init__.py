@@ -27,6 +27,7 @@ HANDLER_EXT = {
     'ini': 'ini',
     'conf': 'ini',
     'yaml': 'yaml',
+    'yml': 'yaml',
     'json': 'json',
     'py': 'file',
 }
