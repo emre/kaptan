@@ -12,6 +12,7 @@ from __future__ import print_function, unicode_literals
 
 import json
 import os
+import sys
 import os.path
 import tempfile
 try:
@@ -25,6 +26,15 @@ except ImportError:
     yaml = None
 
 import kaptan
+
+# python 2/3 compat
+try:
+    unicode = unicode
+except NameError:
+    # py changes unicode => str
+    unicode = str
+
+PY2 = sys.version_info[0] == 2
 
 
 sentinel = object()
@@ -112,6 +122,27 @@ class KaptanTests(unittest.TestCase):
             config.get('production.DATABASE_URI'),
             'mysql://poor_user:poor_password@localhost/poor_posts'
         )
+
+    @unittest.skipIf(yaml is None or not PY2, 'needs yaml')
+    def test_yaml_safedump(self):
+        testdict = {
+            unicode("development"): {
+                "DATABASE_URI": "mysql://root:123456@localhost/posts"
+            },
+            "production": {
+                "DATABASE_URI": "mysql://poor_user:poor_password@localhost/poor_posts"
+            }
+        }
+
+        config = kaptan.Kaptan()
+        config.import_config(testdict)
+
+        yamlconfig = kaptan.Kaptan()
+        yamlconfig.import_config(config.get())
+
+        self.assertIn('!!python/unicode', yamlconfig.export('yaml'))
+
+        self.assertNotIn('!!python/unicode', yamlconfig.export('yaml', safe=True))
 
     @unittest.skipIf(yaml is None, 'needs yaml')
     def test_yaml_handler(self):

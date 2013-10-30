@@ -170,6 +170,8 @@ print config.export("json", indent=4)
 
 ``config.export('yaml')`` also supports the [kwargs for pyyaml](http://pyyaml.org/wiki/PyYAMLDocumentation#Dumper).
 
+New in Version 0.5.7: ``config.export('yaml', safe=True)`` will use ``.safe_dump``.
+
 ## cli
 
 exporting (defaults to json)
