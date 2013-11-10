@@ -223,3 +223,7 @@ $ python -m unittest discover -v
 - [Mark Steve](http://github.com/marksteve)
 - [Tony Narlock](http://github.com/tony)
 - [Berker Peksag](http://github.com/berkerpeksag)
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/emre/kaptan/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
