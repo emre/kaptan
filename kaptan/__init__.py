@@ -139,6 +139,7 @@ def main():
 
     if not config_files:
         parser.print_help()
+        parser.exit(1)
 
     def get_handlers():
         for f in config_files:
