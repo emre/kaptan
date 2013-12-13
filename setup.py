@@ -20,7 +20,7 @@ setup(
     install_requires=['PyYAML'],
     entry_points=dict(
         console_scripts=[
-            'kaptan = kaptan:__main__',
+            'kaptan = kaptan:main',
         ],
     ),
     classifiers=(
