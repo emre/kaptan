@@ -11,15 +11,15 @@
 
 from __future__ import print_function, unicode_literals
 
+import argparse
 import os
 from collections import Mapping, Sequence
 
-from .handlers.json_handler import JsonHandler
 from .handlers.dict_handler import DictHandler
-from .handlers.yaml_handler import YamlHandler
 from .handlers.file_handler import FileHandler
 from .handlers.ini_handler import IniHandler
-
+from .handlers.json_handler import JsonHandler
+from .handlers.yaml_handler import YamlHandler
 
 SENTINEL = object()
 
@@ -118,9 +118,8 @@ class Kaptan(object):
 
 
 def main():
-    import argparse
-
     parser = argparse.ArgumentParser(
+        prog=__package__,
         description='Configuration manager in your pocket')
     parser.add_argument('config_file', action='store',
                         help="file to load config from")
@@ -145,3 +144,4 @@ def main():
     else:
         print(config.export(args.export))
     parser.exit(0)
+
