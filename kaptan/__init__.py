@@ -118,30 +118,57 @@ class Kaptan(object):
 
 
 def main():
+    import argparse
+    from sys import stdin
+    from collections import OrderedDict
+
     parser = argparse.ArgumentParser(
         prog=__package__,
         description='Configuration manager in your pocket')
-    parser.add_argument('config_file', action='store',
-                        help="file to load config from")
-    parser.add_argument('--handler', action='store',
-                        help="handler to use (default: guessed from filename)")
+    parser.add_argument('config_file', action='store', nargs='*',
+                        help="file/s to load config from")
+    parser.add_argument('--handler', action='store', default='json',
+                        help="set default handler")
     parser.add_argument('-e', '--export', action='store', default='json',
-                        help="format to export to")
+                        help="set format to export to")
     parser.add_argument('-k', '--key', action='store',
-                        help="config key to get value of")
-    args = parser.parse_args()
-    handler = (
-        args.handler or
-        HANDLER_EXT.get(os.path.splitext(args.config_file)[1][1:], None)
-    )
-    if not handler:
-        raise RuntimeError("Unable to determine handler")
-    with open(args.config_file) as f:
-        config = Kaptan(handler=handler)
-        config.import_config(f.read())
+                        help="set config key to get value of")
+    args, ukargs = parser.parse_known_args()
+
+    config = Kaptan()
+    config_files = args.config_file + ukargs
+
+    if not config_files:
+        parser.print_help()
+
+    def get_handlers():
+        for f in config_files:
+            s = f.split(':')
+            if len(s) != 2:
+                s += [None]
+            yield tuple(s)
+
+    config_handlers = OrderedDict(list(get_handlers()))
+
+    for config_file, handler in config_handlers.items():
+        is_stdin = config_file == '-'
+        if is_stdin:
+            handler = handler or args.handler
+        else:
+            ext = handler or os.path.splitext(config_file)[1][1:]
+            handler = HANDLER_EXT.get(ext, args.handler)
+        _config = Kaptan(handler=handler)
+        if is_stdin:
+            _config.import_config(stdin.read())
+        else:
+            with open(config_file) as f:
+                _config.import_config(f.read())
+        config.configuration_data.update(_config.configuration_data)
+
     if args.key:
         print(config.get(args.key))
     else:
         print(config.export(args.export))
+
     parser.exit(0)
 

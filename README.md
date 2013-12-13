@@ -4,7 +4,7 @@
 
 configuration parser.
 
-### installation 
+### installation
 
 ```sh
 $ pip install kaptan
@@ -21,7 +21,7 @@ or add kaptan directory to the your path.
 - yaml
 - .ini
 - python file
-    
+
 **default (dict) handler**
 
 ```py
@@ -194,12 +194,44 @@ specifying the handler
 
 ```sh
 $ mv config.yaml config.settings
-$ kaptan config.settings --export json
-Traceback (most recent call last):
-  ...
-RuntimeError: Unable to determine handler
-$ kaptan config.settings --handler yaml --export json
+$ kaptan config.settings:yaml --export json
 {"environment": "DEV"}
+```
+
+config from stdin
+
+```sh
+$ echo '{"source": "stdin"}' | kaptan
+{"source": "stdin"}
+$ echo 'source: stdin' | kaptan -:yaml
+{"source": "stdin"}
+```
+
+merging configs
+
+```sh
+$ echo '
+
+```sh
+$ echo "environment: PROD" > config.settings
+$ echo '{"source": "stdin"}' | kaptan - config.json config.settings:yaml
+{"environment": "PROD", "source": "stdin"}
+```
+
+setting default handler
+
+```sh
+$ echo "source: stdin" | kaptan --handler yaml - config.settings
+{"environment": "PROD", "source": "stdin"}
+```
+
+writing json with yaml
+
+```sh
+$ kaptan -:yaml -e json
+<type yaml here>
+<Ctrl + D>
+<get json here>
 ```
 
 ## running tests
