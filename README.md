@@ -210,9 +210,6 @@ $ echo 'source: stdin' | kaptan -:yaml
 merging configs
 
 ```sh
-$ echo '
-
-```sh
 $ echo "environment: PROD" > config.settings
 $ echo '{"source": "stdin"}' | kaptan - config.json config.settings:yaml
 {"environment": "PROD", "source": "stdin"}
