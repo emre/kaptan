@@ -201,7 +201,7 @@ $ kaptan config.settings:yaml --export json
 config from stdin
 
 ```sh
-$ echo '{"source": "stdin"}' | kaptan
+$ echo '{"source": "stdin"}' | kaptan -
 {"source": "stdin"}
 $ echo 'source: stdin' | kaptan -:yaml
 {"source": "stdin"}
