@@ -10,7 +10,7 @@ from setuptools import find_packages, setup
 
 setup(
     name='kaptan',
-    version='0.5.7',
+    version='0.5.8',
     packages=find_packages(),
     url='https://github.com/emre/kaptan',
     license='BSD',
