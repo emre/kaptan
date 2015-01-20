@@ -54,7 +54,7 @@ print config.get("everything")
 **yaml handler**
 
 ```py
-config = kaptan.Kaptan()
+config = kaptan.Kaptan(handler="yaml")
 config.import_config("""
 product:
   price:
