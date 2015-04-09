@@ -10,9 +10,12 @@ configuration parser.
 $ pip install kaptan
 ```
 
-#### [FreeBSD](http://freebsd.org) port
+#### FreeBSD port
 
 [devel/py-kaptan](https://freshports.org/devel/py-kaptan/) package.
+
+To install the port: ``cd /usr/ports/devel/py-kaptan/ && make install clean``
+To add the package: ``pkg install devel/py-kaptan``
 
 ### usage ###
 
