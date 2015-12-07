@@ -12,6 +12,7 @@
 from __future__ import print_function, unicode_literals
 
 import os
+import os.path as op
 from collections import Mapping, Sequence
 
 from .handlers.dict_handler import DictHandler
@@ -52,20 +53,37 @@ class Kaptan(object):
         self.configuration_data.update({key: value})
         return self
 
+    def _is_python_file(self, value):
+        ext = op.splitext(value)[1][1:]
+        if ext == 'py' or op.isfile(value + '.py'):
+            return True
+        return False
+
     def import_config(self, value):
-        if not isinstance(value, dict) and os.path.isfile(value):
+        if isinstance(value, dict):  # load python dict
+            self.handler = self.HANDLER_MAP['dict']()
+            data = value
+        elif op.isfile(value) and not self._is_python_file(value):
             if not self.handler:
                 try:
-                    key = HANDLER_EXT.get(os.path.splitext(value)[1][1:], None)
+                    key = HANDLER_EXT.get(op.splitext(value)[1][1:], None)
                     self.handler = self.HANDLER_MAP[key]()
                 except:
                     raise RuntimeError("Unable to determine handler")
             with open(value) as f:
-                value = f.read()
-        elif isinstance(value, dict):  # load python dict
-            self.handler = self.HANDLER_MAP['dict']()
+                data = f.read()
+        elif self._is_python_file(value): # is a python file
+            self.handler = self.HANDLER_MAP[HANDLER_EXT['py']]()
+            if not value.endswith('.py'):
+                value += '.py' # in case someone is refering to a module
+            data = op.abspath(op.expanduser(value))
+        else:
+            if not self.handler:
+                raise RuntimeError("Unable to determine handler")
 
-        self.configuration_data = self.handler.load(value)
+            data = value
+
+        self.configuration_data = self.handler.load(data)
         return self
 
     def _get(self, key):
@@ -155,7 +173,7 @@ def main():
         if is_stdin:
             handler = handler or args.handler
         else:
-            ext = handler or os.path.splitext(config_file)[1][1:]
+            ext = handler or op.splitext(config_file)[1][1:]
             handler = HANDLER_EXT.get(ext, args.handler)
         _config = Kaptan(handler=handler)
         if is_stdin:
@@ -171,4 +189,3 @@ def main():
         print(config.export(args.export))
 
     parser.exit(0)
-
