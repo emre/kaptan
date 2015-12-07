@@ -62,9 +62,5 @@ class FileHandler(BaseHandler):
                 data.update({key: value})
         return data
 
-    @staticmethod
-    def _is_neighbour(file_):
-        return op.samefile(op.dirname(file_), op.abspath(op.curdir))
-
     def dump(self, file_):
         raise NotImplementedError("Exporting python files is not supported.")
