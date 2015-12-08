@@ -43,7 +43,7 @@ def import_pyfile(pathname, mod_name=''):
     if sys.version_info[0] == 3:
         import importlib.machinery
         if sys.version_info[1] <= 2:
-            load_func = importlib.machinery.SourceLoader
+            load_func = importlib.abc.SourceLoader
         else:
             load_func = importlib.machinery.SourceFileLoader
         loader = load_func('', pathname)
