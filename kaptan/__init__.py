@@ -77,6 +77,8 @@ class Kaptan(object):
             if not value.endswith('.py'):
                 value += '.py' # in case someone is refering to a module
             data = op.abspath(op.expanduser(value))
+            if not op.isfile(data):
+                raise IOError('File {} not found.'.format(data))
         else:
             if not self.handler:
                 raise RuntimeError("Unable to determine handler")

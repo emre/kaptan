@@ -16,12 +16,12 @@ import os.path as op
 from . import BaseHandler
 
 
-def import_pyfile(filepath, mod_name=None):
+def import_pyfile(pathname, mod_name=''):
     """Import the contents of filepath as a Python module.
 
     Parameters
     ----------
-    filepath: str
+    pathname: str
         Path to the .py file to be imported as a module
 
     mod_name: str
@@ -37,17 +37,16 @@ def import_pyfile(filepath, mod_name=None):
     IOError
         If file is not found
     """
-    if not op.exists(filepath):
-        raise IOError('File {} not found.'.format(filepath))
+    if not op.isfile(pathname):
+        raise IOError('File {} not found.'.format(pathname))
 
     if sys.version_info.major == 3:
         import importlib.machinery
-        loader = importlib.machinery.SourceFileLoader('', filepath)
+        loader = importlib.machinery.SourceFileLoader('', pathname)
         mod = loader.load_module(mod_name)
     else:
         import imp
-        mod = imp.load_source(mod_name, filepath)
-
+        mod = imp.load_source(mod_name, pathname)
     return mod
 
 
