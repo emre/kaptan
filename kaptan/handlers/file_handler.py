@@ -40,7 +40,7 @@ def import_pyfile(pathname, mod_name=''):
     if not op.isfile(pathname):
         raise IOError('File {} not found.'.format(pathname))
 
-    if sys.version_info.major == 3:
+    if sys.version_info[0] == 3:
         import importlib.machinery
         loader = importlib.machinery.SourceFileLoader('', pathname)
         mod = loader.load_module(mod_name)
