@@ -38,7 +38,7 @@ def import_pyfile(pathname, mod_name=''):
         If file is not found
     """
     if not op.isfile(pathname):
-        raise IOError('File {} not found.'.format(pathname))
+        raise IOError('File {0} not found.'.format(pathname))
 
     if sys.version_info[0] == 3:
         import importlib.machinery
