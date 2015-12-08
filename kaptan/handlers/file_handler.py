@@ -42,7 +42,11 @@ def import_pyfile(pathname, mod_name=''):
 
     if sys.version_info[0] == 3:
         import importlib.machinery
-        loader = importlib.machinery.SourceFileLoader('', pathname)
+        if sys.version_info[1] <= 2:
+            load_func = importlib.machinery.SourceLoader
+        else:
+            load_func = importlib.machinery.SourceFileLoader
+        loader = load_func('', pathname)
         mod = loader.load_module(mod_name)
     else:
         import imp
