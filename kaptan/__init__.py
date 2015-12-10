@@ -53,6 +53,9 @@ class Kaptan(object):
         return self
 
     def _is_python_file(self, value):
+        """ Return True if the `value` is the path to an existing file with a
+        `.py` extension. False otherwise
+        """
         ext = os.path.splitext(value)[1][1:]
         if ext == 'py' or os.path.isfile(value + '.py'):
             return True
