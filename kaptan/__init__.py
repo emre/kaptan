@@ -12,7 +12,6 @@
 from __future__ import print_function, unicode_literals
 
 import os
-import os.path as op
 from collections import Mapping, Sequence
 
 from .handlers.dict_handler import DictHandler
@@ -54,8 +53,8 @@ class Kaptan(object):
         return self
 
     def _is_python_file(self, value):
-        ext = op.splitext(value)[1][1:]
-        if ext == 'py' or op.isfile(value + '.py'):
+        ext = os.path.splitext(value)[1][1:]
+        if ext == 'py' or os.path.isfile(value + '.py'):
             return True
         return False
 
@@ -63,10 +62,10 @@ class Kaptan(object):
         if isinstance(value, dict):  # load python dict
             self.handler = self.HANDLER_MAP['dict']()
             data = value
-        elif op.isfile(value) and not self._is_python_file(value):
+        elif os.path.isfile(value) and not self._is_python_file(value):
             if not self.handler:
                 try:
-                    key = HANDLER_EXT.get(op.splitext(value)[1][1:], None)
+                    key = HANDLER_EXT.get(os.path.splitext(value)[1][1:], None)
                     self.handler = self.HANDLER_MAP[key]()
                 except:
                     raise RuntimeError("Unable to determine handler")
@@ -76,8 +75,8 @@ class Kaptan(object):
             self.handler = self.HANDLER_MAP[HANDLER_EXT['py']]()
             if not value.endswith('.py'):
                 value += '.py' # in case someone is refering to a module
-            data = op.abspath(op.expanduser(value))
-            if not op.isfile(data):
+            data = os.path.abspath(os.path.expanduser(value))
+            if not os.path.isfile(data):
                 raise IOError('File {0} not found.'.format(data))
         else:
             if not self.handler:
@@ -175,7 +174,7 @@ def main():
         if is_stdin:
             handler = handler or args.handler
         else:
-            ext = handler or op.splitext(config_file)[1][1:]
+            ext = handler or os.path.splitext(config_file)[1][1:]
             handler = HANDLER_EXT.get(ext, args.handler)
         _config = Kaptan(handler=handler)
         if is_stdin:

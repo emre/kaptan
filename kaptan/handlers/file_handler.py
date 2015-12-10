@@ -11,7 +11,6 @@ from __future__ import print_function, unicode_literals
 
 import os
 import sys
-import os.path as op
 
 from . import BaseHandler
 
@@ -37,7 +36,7 @@ def import_pyfile(pathname, mod_name=''):
     IOError
         If file is not found
     """
-    if not op.isfile(pathname):
+    if not os.path.isfile(pathname):
         raise IOError('File {0} not found.'.format(pathname))
 
     if sys.version_info[0] == 3 and sys.version_info[1] > 2: # Python >= 3.3
