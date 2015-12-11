@@ -44,3 +44,6 @@ a.ini
 dev_config.py
 
 .env
+
+# sphinx build output
+doc/_build
