@@ -11,6 +11,7 @@
 
 from __future__ import print_function, unicode_literals
 
+import argparse
 import os
 from collections import Mapping, Sequence
 
@@ -138,22 +139,31 @@ class Kaptan(object):
         return default
 
 
+def get_parser():
+    """Create and return argument parser.
+
+    :rtype: :class:`argparse.ArgumentParser`
+    :return: CLI Parser
+    """
+    parser = argparse.ArgumentParser(
+        prog=__package__,
+        description='Configuration manager in your pocket'
+    )
+    parser.add_argument('config_file', action='store', nargs='*',
+                    help="file/s to load config from")
+    parser.add_argument('--handler', action='store', default='json',
+                    help="set default handler")
+    parser.add_argument('-e', '--export', action='store', default='json',
+                    help="set format to export to")
+    parser.add_argument('-k', '--key', action='store',
+                    help="set config key to get value of")
+    return parser
+
 def main():
-    import argparse
     from sys import stdin
     from collections import OrderedDict
 
-    parser = argparse.ArgumentParser(
-        prog=__package__,
-        description='Configuration manager in your pocket')
-    parser.add_argument('config_file', action='store', nargs='*',
-                        help="file/s to load config from")
-    parser.add_argument('--handler', action='store', default='json',
-                        help="set default handler")
-    parser.add_argument('-e', '--export', action='store', default='json',
-                        help="set format to export to")
-    parser.add_argument('-k', '--key', action='store',
-                        help="set config key to get value of")
+    parser = get_parser()
     args, ukargs = parser.parse_known_args()
 
     config = Kaptan()
