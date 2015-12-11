@@ -9,6 +9,7 @@ installation
 ------------
 
 .. code-block:: sh
+
     $ pip install kaptan
 
 FreeBSD port
@@ -35,6 +36,7 @@ usage
 **default (dict) handler**
 
 .. code-block:: python
+
     config = kaptan.Kaptan()
     config.import_config({
         'environment': 'DEV',
@@ -105,6 +107,7 @@ config.ini
 config.py
 
 .. code-block:: python
+
     DATABASE = 'mysql://root:123456@localhost/posts'
     DEBUG = False
     PAGINATION = {
@@ -120,7 +123,8 @@ config.py
    print config.get("DEBUG")
    # output: False
 
-## exporting configuration
+exporting configuration
+-----------------------
 
 .. code-block:: python
 
@@ -173,7 +177,7 @@ outputs unindented json. ``.export`` accepts kwargs which pass into
 
 ``config.export('yaml')`` also supports the `kwargs for pyyaml`_.
 
-_kwargs for pyyaml: http://pyyaml.org/wiki/PyYAMLDocumentation#Dumper
+.. _kwargs for pyyaml: http://pyyaml.org/wiki/PyYAMLDocumentation#Dumper
 
 New in Version 0.5.7: ``config.export('yaml', safe=True)`` will use ``.safe_dump``.
 
