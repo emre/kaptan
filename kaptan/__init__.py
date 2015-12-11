@@ -52,8 +52,20 @@ class Kaptan(object):
         self.configuration_data.update({key: value})
         return self
 
+    def _is_python_file(self, value):
+        """ Return True if the `value` is the path to an existing file with a
+        `.py` extension. False otherwise
+        """
+        ext = os.path.splitext(value)[1][1:]
+        if ext == 'py' or os.path.isfile(value + '.py'):
+            return True
+        return False
+
     def import_config(self, value):
-        if not isinstance(value, dict) and os.path.isfile(value):
+        if isinstance(value, dict):  # load python dict
+            self.handler = self.HANDLER_MAP['dict']()
+            data = value
+        elif os.path.isfile(value) and not self._is_python_file(value):
             if not self.handler:
                 try:
                     key = HANDLER_EXT.get(os.path.splitext(value)[1][1:], None)
@@ -61,11 +73,21 @@ class Kaptan(object):
                 except:
                     raise RuntimeError("Unable to determine handler")
             with open(value) as f:
-                value = f.read()
-        elif isinstance(value, dict):  # load python dict
-            self.handler = self.HANDLER_MAP['dict']()
+                data = f.read()
+        elif self._is_python_file(value): # is a python file
+            self.handler = self.HANDLER_MAP[HANDLER_EXT['py']]()
+            if not value.endswith('.py'):
+                value += '.py' # in case someone is refering to a module
+            data = os.path.abspath(os.path.expanduser(value))
+            if not os.path.isfile(data):
+                raise IOError('File {0} not found.'.format(data))
+        else:
+            if not self.handler:
+                raise RuntimeError("Unable to determine handler")
 
-        self.configuration_data = self.handler.load(value)
+            data = value
+
+        self.configuration_data = self.handler.load(data)
         return self
 
     def _get(self, key):
@@ -171,4 +193,3 @@ def main():
         print(config.export(args.export))
 
     parser.exit(0)
-

@@ -235,6 +235,31 @@ PAGINATION = {
         finally:
             os.unlink(fobj.name)
 
+    def test_file_away_handler(self):
+        with tempfile.NamedTemporaryFile(mode='w', suffix='.py',
+                                         delete=False) as fobj:
+            fobj.write("""DATABASE = 'mysql://root:123456@localhost/girlz'
+DEBUG = False
+PAGINATION = {
+    'per_page': 10,
+    'limit': 20,
+}
+""")
+        try:
+            config = kaptan.Kaptan()
+            config.import_config(fobj.name)
+            self.assertEqual(config.get("PAGINATION.limit"), 20)
+        finally:
+            os.unlink(fobj.name)
+
+    def test_file_away_noexist_raises(self):
+        with tempfile.NamedTemporaryFile(mode='w', suffix='.py',
+                                         delete=True) as fobj:
+            fobj.write("")
+
+        config = kaptan.Kaptan()
+        self.assertRaises(IOError, config.import_config, fobj.name)
+
     def test_invalid_key(self):
         config = kaptan.Kaptan()
         config.import_config(self.config)
