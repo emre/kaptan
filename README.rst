@@ -9,6 +9,7 @@ installation
 ------------
 
 .. code-block:: sh
+
     $ pip install kaptan
 
 FreeBSD port
@@ -35,6 +36,7 @@ usage
 **default (dict) handler**
 
 .. code-block:: python
+
     config = kaptan.Kaptan()
     config.import_config({
         'environment': 'DEV',
@@ -105,6 +107,7 @@ config.ini
 config.py
 
 .. code-block:: python
+
     DATABASE = 'mysql://root:123456@localhost/posts'
     DEBUG = False
     PAGINATION = {
