@@ -2,21 +2,26 @@
     kaptan
     ~~~~~~
 
-    :copyright: (c) 2013 by the authors and contributors (See AUTHORS file).
+    :copyright: (c) 2013-2015 by the authors and contributors (See AUTHORS file).
     :license: BSD, see LICENSE for more details.
 """
 
 from setuptools import find_packages, setup
 
+about = {}
+with open("kaptan/__about__.py") as fp:
+    exec(fp.read(), about)
+
+
 setup(
-    name='kaptan',
-    version='0.5.8',
+    name=about['__title__'],
+    version=about['__version__'],
     packages=find_packages(),
-    url='https://github.com/emre/kaptan',
-    license='BSD',
-    author='Emre Yilmaz',
-    author_email='mail@emreyilmaz.me',
-    description='Configuration Manager',
+    url=about['__url__'],
+    license=about['__license__'],
+    author=about['__author__'],
+    author_email=about['__email__'],
+    description=about['__description__'],
     install_requires=['PyYAML'],
     entry_points=dict(
         console_scripts=[
