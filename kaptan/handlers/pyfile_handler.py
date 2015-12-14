@@ -1,6 +1,6 @@
 # -*- coding: utf8 -*-
 """
-    kaptan.handlers.file_handler
+    kaptan.handlers.pyfile_handler
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     :copyright: (c) 2013 by the authors and contributors (See AUTHORS file).
@@ -49,7 +49,7 @@ def import_pyfile(pathname, mod_name=''):
     return mod
 
 
-class FileHandler(BaseHandler):
+class PyFileHandler(BaseHandler):
 
     def load(self, file_):
         module = import_pyfile(file_)
