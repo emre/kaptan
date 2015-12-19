@@ -217,7 +217,7 @@ DATABASE_URI = mysql://poor_user:poor_password@localhost/poor_posts
             'mysql://poor_user:poor_password@localhost/poor_posts'
         )
 
-    def test_file_handler(self):
+    def test_py_file_handler(self):
         with tempfile.NamedTemporaryFile(mode='w', suffix='.py',
                                          dir='.', delete=False) as fobj:
             fobj.write("""DATABASE = 'mysql://root:123456@localhost/girlz'
@@ -235,7 +235,7 @@ PAGINATION = {
         finally:
             os.unlink(fobj.name)
 
-    def test_file_away_handler(self):
+    def test_py_file_away_handler(self):
         with tempfile.NamedTemporaryFile(mode='w', suffix='.py',
                                          delete=False) as fobj:
             fobj.write("""DATABASE = 'mysql://root:123456@localhost/girlz'
@@ -252,7 +252,7 @@ PAGINATION = {
         finally:
             os.unlink(fobj.name)
 
-    def test_file_away_noexist_raises(self):
+    def test_py_file_away_noexist_raises(self):
         with tempfile.NamedTemporaryFile(mode='w', suffix='.py',
                                          delete=True) as fobj:
             fobj.write("")

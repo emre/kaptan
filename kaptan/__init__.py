@@ -16,7 +16,7 @@ import os
 from collections import Mapping, Sequence
 
 from .handlers.dict_handler import DictHandler
-from .handlers.file_handler import FileHandler
+from .handlers.pyfile_handler import PyFileHandler
 from .handlers.ini_handler import IniHandler
 from .handlers.json_handler import JsonHandler
 from .handlers.yaml_handler import YamlHandler
@@ -39,7 +39,7 @@ class Kaptan(object):
         'json': JsonHandler,
         'dict': DictHandler,
         'yaml': YamlHandler,
-        'file': FileHandler,
+        'file': PyFileHandler,
         'ini': IniHandler,
     }
 
