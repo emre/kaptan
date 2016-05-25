@@ -9,6 +9,7 @@
 import sys
 
 from setuptools import find_packages, setup
+from setuptools.command.test import test as TestCommand
 
 about = {}
 with open("kaptan/__about__.py") as fp:
@@ -28,6 +29,20 @@ if sys.version_info[0] > 2:
 else:
     readme = open('README.rst').read()
 
+
+class PyTest(TestCommand):
+    user_options = [('pytest-args=', 'a', "Arguments to pass to py.test")]
+
+    def initialize_options(self):
+        TestCommand.initialize_options(self)
+        self.pytest_args = []
+
+    def run_tests(self):
+        import pytest
+        errno = pytest.main(self.pytest_args)
+        sys.exit(errno)
+
+
 setup(
     name=about['__title__'],
     version=about['__version__'],
@@ -40,6 +55,7 @@ setup(
     long_description=readme,
     install_requires=install_reqs,
     tests_require=tests_reqs,
+    cmdclass={'test': PyTest},
     entry_points=dict(
         console_scripts=[
             'kaptan = kaptan:main',
