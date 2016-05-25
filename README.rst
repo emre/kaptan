@@ -248,13 +248,7 @@ With `py.test`:
 
 .. code-block:: sh
 
-    $ py.test tests.py
-
-or just:
-
-.. code-block:: sh
-
-    $ python -m unittest discover -v
+    $ py.test
 
 contributors
 ------------
