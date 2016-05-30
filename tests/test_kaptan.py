@@ -139,6 +139,18 @@ def test_remove_key_from_configuration():
     assert config.get('server') == {'name': 'redis'}
 
 
+def test_remove_item_from_array_on_configuration():
+    config = kaptan.Kaptan()
+    config.import_config({
+        'price': {
+            'currencies': ['TL', 'EUR', 'USD']
+        }
+    })
+    config.remove('price.currencies', 1)
+
+    assert config.get('price.currencies') == ['TL', 'USD']
+
+
 def test_upsert(testconfig):
     config = kaptan.Kaptan()
     config.import_config(testconfig)

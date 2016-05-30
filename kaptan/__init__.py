@@ -156,7 +156,7 @@ class Kaptan(object):
 
         return self
 
-    def remove(self, key=None):
+    def remove(self, key=None, index=None):
         if not key:
             raise RuntimeError("Unable to find key")
 
@@ -168,7 +168,10 @@ class Kaptan(object):
             del keys[-1]
         for chunk in keys:
             current_data = current_data[chunk]
-        del current_data[exact_key]
+        if isinstance(index, int) and isinstance(current_data[exact_key], list):
+            current_data[exact_key].pop(index)
+        else:
+            del current_data[exact_key]
 
         return self
 
