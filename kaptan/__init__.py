@@ -138,7 +138,8 @@ class Kaptan(object):
                         is_key_exist = True
                     current_data = current_data[chunk]
                 except KeyError:
-                    current_data = {}
+                    current_data[chunk] = {}
+                    current_data = current_data[chunk]
         try:
             if replace:
                 current_data[new_key] = value
