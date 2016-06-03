@@ -125,25 +125,20 @@ class Kaptan(object):
                 return default
             raise
 
-    def add(self, key=None, value=None, replace=False):
-        if not key:
-            raise RuntimeError("Unable to find key")
-
+    def add(self, key, value=None, replace=False):
         current_data = self.configuration_data
         keys = key.split('.')
         new_key = keys[0]
         is_key_exist = False
         if len(keys) > 1:
-            new_key = keys[-1]
-            del keys[-1]
+            new_key = keys.pop()
             for chunk in keys:
                 try:
                     if not replace and new_key in current_data[chunk]:
                         is_key_exist = True
                     current_data = current_data[chunk]
                 except KeyError:
-                    current_data[chunk] = {}
-                    current_data = current_data[chunk]
+                    current_data = {}
         try:
             if replace:
                 current_data[new_key] = value
@@ -156,16 +151,12 @@ class Kaptan(object):
 
         return self
 
-    def remove(self, key=None, index=None):
-        if not key:
-            raise RuntimeError("Unable to find key")
-
+    def remove(self, key, index=None):
         current_data = self.configuration_data
         keys = key.split('.')
         exact_key = keys[0]
         if len(keys) > 1:
-            exact_key = keys[-1]
-            del keys[-1]
+            exact_key = keys.pop()
         for chunk in keys:
             current_data = current_data[chunk]
         if isinstance(index, int) and isinstance(current_data[exact_key], list):
