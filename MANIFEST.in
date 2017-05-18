@@ -1,5 +1,6 @@
 include LICENSE AUTHORS README.md
 include tests.py
+recursive-include requirements *
 recursive-include kaptan *
 recursive-exclude kaptan *.pyc
 recursive-exclude kaptan *.pyo
