@@ -90,7 +90,7 @@ def test_upsert(testconfig):
     config = kaptan.Kaptan()
     config.import_config(testconfig)
 
-    assert config.get('debug') == False
+    assert not config.get('debug')
 
     config.upsert('debug', True)
     assert config.get('debug')
@@ -110,10 +110,9 @@ def test_json_handler(testconfig):
     assert not config.get('debug')
 
 
-def test_json_file_handler():
-    with tempfile.NamedTemporaryFile(mode='w', suffix='.json',
-                                     delete=False) as fobj:
-        fobj.write("""{"development": {
+def test_json_file_handler(tmpdir):
+    json_file = tmpdir.join('config.json')
+    json_file.write("""{"development": {
 "DATABASE_URI": "mysql://root:123456@localhost/posts"
 },
 "production": {
@@ -122,9 +121,10 @@ def test_json_file_handler():
 }
 """)
     config = kaptan.Kaptan(handler='json')
-    config.import_config(fobj.name)
+    config.import_config(str(json_file))
     assert config.get(
-        'production.DATABASE_URI') == 'mysql://poor_user:poor_password@localhost/poor_posts'
+        'production.DATABASE_URI'
+    ) == 'mysql://poor_user:poor_password@localhost/poor_posts'
 
 
 @pytest.mark.skipif(yaml is None or not PY2, reason='needs yaml')
@@ -134,7 +134,7 @@ def test_yaml_safedump(testconfig):
             "DATABASE_URI": "mysql://root:123456@localhost/posts"
         },
         "production": {
-            "DATABASE_URI": "mysql://poor_user:poor_password@localhost/poor_posts"
+            "DATABASE_URI": "mysql://poor_user:poor_password@localhost/poor_posts"  # NOQA
         }
     }
 
@@ -157,10 +157,10 @@ def test_yaml_handler(testconfig):
 
 
 @pytest.mark.skipif(yaml is None, reason='needs yaml')
-def test_yaml_file_handler(testconfig):
-    with tempfile.NamedTemporaryFile(mode='w', suffix='.yaml',
-                                     delete=False) as fobj:
-        fobj.write("""
+def test_yaml_file_handler(tmpdir, testconfig):
+    yaml_file = tmpdir.join('config.yaml')
+
+    yaml_file.write("""
 development:
   DATABASE_URI: mysql://root:123456@localhost/posts
 
@@ -168,16 +168,15 @@ production:
   DATABASE_URI: mysql://poor_user:poor_password@localhost/poor_posts
 """)
     config = kaptan.Kaptan(handler='yaml')
-    config.import_config(fobj.name)
+    config.import_config(str(yaml_file))
     assert config.get('production.DATABASE_URI') == \
         'mysql://poor_user:poor_password@localhost/poor_posts'
 
 
 @pytest.mark.skipif(yaml is None, reason='needs yaml')
-def test_yml_file_handler():
-    with tempfile.NamedTemporaryFile(mode='w', suffix='.yml',
-                                     delete=False) as fobj:
-        fobj.write("""
+def test_yml_file_handler(tmpdir):
+    yml_file = tmpdir.join('config.yml')
+    yml_file.write("""
 development:
   DATABASE_URI: mysql://root:123456@localhost/posts
 
@@ -185,7 +184,7 @@ production:
   DATABASE_URI: mysql://poor_user:poor_password@localhost/poor_posts
 """)
     config = kaptan.Kaptan()
-    config.import_config(fobj.name)
+    config.import_config(str(yml_file))
     assert config.get('production.DATABASE_URI') == \
         'mysql://poor_user:poor_password@localhost/poor_posts'
 
@@ -202,21 +201,23 @@ DATABASE_URI = mysql://poor_user:poor_password@localhost/poor_posts
     config.import_config(value)
 
     assert config.get(
-        'production.database_uri') == 'mysql://poor_user:poor_password@localhost/poor_posts'
+        'production.database_uri'
+    ) == 'mysql://poor_user:poor_password@localhost/poor_posts'
 
 
-def test_ini_file_handler(testconfig):
-    with tempfile.NamedTemporaryFile(mode='w', delete=False) as fobj:
-        fobj.write("""[development]
+def test_ini_file_handler(tmpdir, testconfig):
+    ini_file = tmpdir.join('config.ini')
+    ini_file.write("""[development]
 DATABASE_URI = mysql://root:123456@localhost/posts
 
 [production]
 DATABASE_URI = mysql://poor_user:poor_password@localhost/poor_posts
 """)
     config = kaptan.Kaptan(handler='ini')
-    config.import_config(fobj.name)
+    config.import_config(str(ini_file))
     assert config.get(
-        'production.database_uri') == 'mysql://poor_user:poor_password@localhost/poor_posts'
+        'production.database_uri'
+    ) == 'mysql://poor_user:poor_password@localhost/poor_posts'
 
 
 def test_py_file_handler(testconfig):
@@ -238,32 +239,26 @@ PAGINATION = {
         os.unlink(fobj.name)
 
 
-def test_py_file_away_handler(testconfig):
-    with tempfile.NamedTemporaryFile(mode='w', suffix='.py',
-                                     delete=False) as fobj:
-        fobj.write("""DATABASE = 'mysql://root:123456@localhost/girlz'
+def test_py_file_away_handler(tmpdir, testconfig):
+    py_file = tmpdir.join('config2.py')
+    py_file.write("""DATABASE = 'mysql://root:123456@localhost/girlz'
 DEBUG = False
 PAGINATION = {
 'per_page': 10,
 'limit': 20,
 }
 """)
-    try:
-        config = kaptan.Kaptan()
-        config.import_config(fobj.name)
-        assert config.get("PAGINATION.limit") == 20
-    finally:
-        os.unlink(fobj.name)
+    config = kaptan.Kaptan()
+    config.import_config(str(py_file))
+    assert config.get("PAGINATION.limit") == 20
 
 
-def test_py_file_away_noexist_raises(testconfig):
-    with tempfile.NamedTemporaryFile(mode='w', suffix='.py',
-                                     delete=True) as fobj:
-        fobj.write("")
+def test_py_file_away_noexist_raises(tmpdir, testconfig):
+    py_file = tmpdir.join('config3.py')
 
     config = kaptan.Kaptan()
     with pytest.raises(IOError):
-        config.import_config(fobj.name)
+        config.import_config(str(py_file))
 
 
 def test_invalid_key(testconfig):
