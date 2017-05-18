@@ -1,3 +1,3 @@
-sphinx
-sphinx-rtd-theme
-sphinx-argparse
+sphinx==1.6.1
+sphinx-rtd-theme==0.2.4
+sphinx-argparse==0.2.0
