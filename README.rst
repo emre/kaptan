@@ -1,7 +1,7 @@
 kaptan
 ======
 
-|pypi| |docs| |build-status| |license| |bitdeli|
+|pypi| |docs| |build-status| |license|
 
 configuration parser.
 
@@ -266,7 +266,3 @@ contributors
     :alt: Documentation Status
     :scale: 100%
     :target: https://readthedocs.org/projects/kaptan/
-
-.. |bitdeli| image:: https://d2weczhvl823v0.cloudfront.net/emre/kaptan/trend.png
-   :alt: bitdeli badge
-   :target: https://bitdeli.com/free
