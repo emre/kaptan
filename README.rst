@@ -236,7 +236,7 @@ writing json with yaml
 running tests
 -------------
 
-With `py.test`:
+with `py.test`:
 
 .. code-block:: sh
 
@@ -250,6 +250,9 @@ contributors
 - `Mark Steve <http://github.com/marksteve>`_
 - `Tony Narlock <http://github.com/tony>`_
 - `Berker Peksag <http://github.com/berkerpeksag>`_
+- `Pradyun S. Gedam <https://github.com/pradyunsg>`_
+
+see more at https://github.com/emre/kaptan/graphs/contributors.
 
 .. |pypi| image:: https://img.shields.io/pypi/v/kaptan.svg
     :alt: Python Package
