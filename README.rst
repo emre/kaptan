@@ -1,7 +1,7 @@
 kaptan
 ======
 
-|pypi| |docs| |build-status| |license|
+|pypi| |docs| |build-status| |coverage| |license|
 
 configuration parser.
 
@@ -258,6 +258,10 @@ contributors
 .. |build-status| image:: https://img.shields.io/travis/emre/kaptan.svg
    :alt: Build Status
    :target: https://travis-ci.org/emre/kaptan
+
+.. |coverage| image:: https://codecov.io/gh/emre/kaptan/branch/master/graph/badge.svg
+    :alt: Code Coverage
+    :target: https://codecov.io/gh/emre/kaptan
 
 .. |license| image:: https://img.shields.io/github/license/emre/kaptan.svg
     :alt: License 
