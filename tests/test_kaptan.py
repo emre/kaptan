@@ -144,15 +144,15 @@ def test_yaml_safedump(testconfig):
     yamlconfig = kaptan.Kaptan()
     yamlconfig.import_config(config.get())
 
-    assert '!!python/unicode' in yamlconfig.export('yaml')
-
+    assert '!!python/unicode' not in yamlconfig.export('yaml')
     assert '!!python/unicode' not in yamlconfig.export('yaml', safe=True)
+    assert '!!python/unicode' in yamlconfig.export('yaml', safe=False)
 
 
 @pytest.mark.skipif(yaml is None, reason='needs yaml')
 def test_yaml_handler(testconfig):
     config = kaptan.Kaptan(handler='yaml')
-    config.import_config(yaml.dump(testconfig))
+    config.import_config(yaml.safe_dump(testconfig))
     assert not config.get("debug")
 
 

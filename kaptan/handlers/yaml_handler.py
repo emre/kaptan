@@ -16,11 +16,16 @@ from . import BaseHandler
 
 class YamlHandler(BaseHandler):
 
-    def load(self, data):
-        return yaml.load(data)
-
-    def dump(self, data, safe=False, **kwargs):
-        if not safe:
-            return yaml.dump(data, **kwargs)
+    def load(self, data, safe=True):
+        if safe:
+            func = yaml.safe_load
         else:
-            return yaml.safe_dump(data, **kwargs)
+            func = yaml.load
+        return func(data)
+
+    def dump(self, data, safe=True, **kwargs):
+        if safe:
+            func = yaml.safe_dump
+        else:
+            func = yaml.dump
+        return func(data, **kwargs)
