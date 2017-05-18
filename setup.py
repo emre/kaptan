@@ -2,7 +2,7 @@
     kaptan
     ~~~~~~
 
-    :copyright: (c) 2013-2016 by the authors and contributors (See AUTHORS file).
+    :copyright: (c) 2013-2016 authors and contributors (See AUTHORS file).
     :license: BSD, see LICENSE for more details.
 """
 
@@ -68,13 +68,11 @@ setup(
         'Intended Audience :: Developers',
         'Programming Language :: Python',
         'Programming Language :: Python :: 2',
-        'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.2',
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
-        'Programming Language :: Python :: 3.5'
+        'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
     ),
 )
-
