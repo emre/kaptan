@@ -78,7 +78,7 @@ class Kaptan(object):
         elif self._is_python_file(value): # is a python file
             self.handler = self.HANDLER_MAP[HANDLER_EXT['py']]()
             if not value.endswith('.py'):
-                value += '.py' # in case someone is refering to a module
+                value += '.py' # in case someone is referring to a module
             data = os.path.abspath(os.path.expanduser(value))
             if not os.path.isfile(data):
                 raise IOError('File {0} not found.'.format(data))
