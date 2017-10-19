@@ -1,5 +1,8 @@
 # Makefile for Sphinx documentation
 #
+WATCH_FILES= find .. -type f -not -path '*/\.*' | grep -i '.*[.]rst\|CHANGES\|TODO\|.*conf\.py' 2> /dev/null
+PYVERSION=$(shell python -c "import sys;v=sys.version_info[0];sys.stdout.write(str(v))")
+HTTP_PORT     = 8077
 
 # You can set these variables from the command line.
 SPHINXOPTS    =
@@ -155,3 +158,20 @@ doctest:
 checkbuild:
 	rm -rf $(BUILDDIR)
 	$(SPHINXBUILD) -n -q ./ $(BUILDDIR)
+
+watch:
+	if command -v entr > /dev/null; then ${WATCH_FILES} | entr -c $(MAKE) html; else $(MAKE) html; fi
+
+serve:
+	@echo '=============================================================='
+	@echo
+	@echo 'docs server running at http://0.0.0.0:${HTTP_PORT}/_build/html'
+	@echo
+	@echo '=============================================================='
+	@if test ${PYVERSION} -eq 2; then $(MAKE) serve_py2; else make serve_py3; fi
+
+serve_py2:
+	python -m SimpleHTTPServer ${HTTP_PORT}
+
+serve_py3:
+	python -m http.server ${HTTP_PORT}
