@@ -1,0 +1,25 @@
+session_name: kaptan
+start_directory: ./ # load session relative to config location (project root).
+before_script: pipenv install --dev --skip-lock
+shell_command_before: 
+  - '[ -d `pipenv --venv` ] && source `pipenv --venv`/bin/activate && reset'
+windows:
+- window_name: kaptan
+  focus: True
+  layout: main-horizontal
+  options:
+    main-pane-height: 35
+  panes:
+  - focus: true
+  - pane 
+  - make watch_test
+- window_name: docs
+  layout: main-horizontal
+  options:
+    main-pane-height: 35
+  start_directory: doc/
+  panes:
+  - focus: true
+  - pane
+  - make serve
+  - make watch
