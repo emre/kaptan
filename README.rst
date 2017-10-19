@@ -8,7 +8,7 @@ configuration parser.
 installation
 ------------
 
-.. code-block:: sh
+.. code-block:: console
 
     $ pip install kaptan
 
@@ -178,7 +178,7 @@ cli
 
 exporting (defaults to json)
 
-.. code-block:: sh
+.. code-block:: console
 
     $ echo "environment: DEV" > config.yaml
     $ kaptan config.yaml --export json > config.json
@@ -187,14 +187,14 @@ exporting (defaults to json)
 
 getting a value
 
-.. code-block:: sh
+.. code-block:: console
 
     $ kaptan config.yaml --key environment
     DEV
 
 specifying the handler
 
-.. code-block:: sh
+.. code-block:: console
 
     $ mv config.yaml config.settings
     $ kaptan config.settings:yaml --export json
@@ -202,7 +202,7 @@ specifying the handler
 
 config from stdin
 
-.. code-block:: sh
+.. code-block:: console
 
     $ echo '{"source": "stdin"}' | kaptan -
     {"source": "stdin"}
@@ -211,7 +211,7 @@ config from stdin
 
 merging configs
 
-.. code-block:: sh
+.. code-block:: console
 
    $ echo "environment: PROD" > config.settings
    $ echo '{"source": "stdin"}' | kaptan - config.json config.settings:yaml
@@ -219,14 +219,14 @@ merging configs
 
 setting default handler
 
-.. code-block:: sh
+.. code-block:: console
 
     $ echo "source: stdin" | kaptan --handler yaml - config.settings
     {"environment": "PROD", "source": "stdin"}
 
 writing json with yaml
 
-.. code-block:: sh
+.. code-block:: console
 
     $ kaptan -:yaml -e json
     <type yaml here>
@@ -236,9 +236,9 @@ writing json with yaml
 running tests
 -------------
 
-with `py.test`:
+with ``py.test``:
 
-.. code-block:: sh
+.. code-block:: console
 
     $ py.test
 
