@@ -4,6 +4,20 @@ Changelog
 
 Here you can find the recent changes to kaptan
 
+v0.5.9 (2017-10-19)
+-------------------
+
+- Make yaml safe by default (https://github.com/emre/kaptan/pull/46) by
+  @pradyunsg
+- Add ``Pipfile`` for `pipenv`_
+- Add ``.tmuxp.yaml`` for `tmuxp`_
+- Add ``Makefile`` with tasks to re-run commands on file save, rebuild
+  sphinx
+- Update py.test, sphinx versions
+
+.. _pipenv: https://github.com/kennethreitz/pipenv
+.. _tmuxp: https://tmuxp.git-pull.com
+
 CURRENT
 -------
 
