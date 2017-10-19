@@ -39,11 +39,11 @@ def import_pyfile(pathname, mod_name=''):
     if not os.path.isfile(pathname):
         raise IOError('File {0} not found.'.format(pathname))
 
-    if sys.version_info[0] == 3 and sys.version_info[1] > 2: # Python >= 3.3
+    if sys.version_info[0] == 3 and sys.version_info[1] > 2:  # Python >= 3.3
         import importlib.machinery
         loader = importlib.machinery.SourceFileLoader('', pathname)
         mod = loader.load_module(mod_name)
-    else: #  2.6 >= Python <= 3.2
+    else:  # 2.6 >= Python <= 3.2
         import imp
         mod = imp.load_source(mod_name, pathname)
     return mod

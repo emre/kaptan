@@ -13,7 +13,7 @@ try:
     import ConfigParser as configparser
     from StringIO import StringIO
 
-    configparser.RawConfigParser.read_file = configparser.RawConfigParser.readfp
+    configparser.RawConfigParser.read_file = configparser.RawConfigParser.readfp  # NOQA
 except ImportError:  # Python 3
     import configparser
     from io import StringIO

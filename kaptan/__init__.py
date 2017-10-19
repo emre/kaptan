@@ -75,10 +75,10 @@ class Kaptan(object):
                     raise RuntimeError("Unable to determine handler")
             with open(value) as f:
                 data = f.read()
-        elif self._is_python_file(value): # is a python file
+        elif self._is_python_file(value):  # is a python file
             self.handler = self.HANDLER_MAP[HANDLER_EXT['py']]()
             if not value.endswith('.py'):
-                value += '.py' # in case someone is referring to a module
+                value += '.py'  # in case someone is referring to a module
             data = os.path.abspath(os.path.expanduser(value))
             if not os.path.isfile(data):
                 raise IOError('File {0} not found.'.format(data))
@@ -150,14 +150,15 @@ def get_parser():
         description='Configuration manager in your pocket'
     )
     parser.add_argument('config_file', action='store', nargs='*',
-                    help="file/s to load config from")
+                        help="file/s to load config from")
     parser.add_argument('--handler', action='store', default='json',
-                    help="set default handler")
+                        help="set default handler")
     parser.add_argument('-e', '--export', action='store', default='json',
-                    help="set format to export to")
+                        help="set format to export to")
     parser.add_argument('-k', '--key', action='store',
-                    help="set config key to get value of")
+                        help="set config key to get value of")
     return parser
+
 
 def main():
     from sys import stdin
