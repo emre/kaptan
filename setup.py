@@ -1,9 +1,9 @@
 """
-    kaptan
-    ~~~~~~
+kaptan
+======
 
-    :copyright: (c) 2013-2016 authors and contributors (See AUTHORS file).
-    :license: BSD, see LICENSE for more details.
+:copyright: (c) 2013- authors and contributors (See AUTHORS file).
+:license: BSD, see LICENSE for more details.
 """
 
 import sys
