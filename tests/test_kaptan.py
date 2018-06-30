@@ -1,10 +1,10 @@
 # -*- coding: utf8 -*-
 """
-    kaptan
-    ~~~~~~
+kaptan
+~~~~~~
 
-    :copyright: (c) 2013 by the authors and contributors (See AUTHORS file).
-    :license: BSD, see LICENSE for more details.
+:copyright: (c) 2013 by the authors and contributors (See AUTHORS file).
+:license: BSD, see LICENSE for more details.
 """
 
 from __future__ import print_function, unicode_literals
@@ -220,23 +220,20 @@ DATABASE_URI = mysql://poor_user:poor_password@localhost/poor_posts
     ) == 'mysql://poor_user:poor_password@localhost/poor_posts'
 
 
-def test_py_file_handler(testconfig):
-    with tempfile.NamedTemporaryFile(mode='w', suffix='.py',
-                                     dir='.', delete=False) as fobj:
-        fobj.write("""DATABASE = 'mysql://root:123456@localhost/girlz'
+def test_py_file_handler(testconfig, tmpdir, monkeypatch):
+    py_file = tmpdir.join('config.py')
+    py_file.write("""DATABASE = 'mysql://root:123456@localhost/girlz'
 DEBUG = False
 PAGINATION = {
 'per_page': 10,
 'limit': 20,
 }
 """)
-    try:
-        normalize_name = os.path.basename(fobj.name).rpartition('.')[0]
-        config = kaptan.Kaptan(handler='file')
-        config.import_config(normalize_name)
-        assert config.get("PAGINATION.limit") == 20
-    finally:
-        os.unlink(fobj.name)
+    monkeypatch.syspath_prepend(str(tmpdir))
+    normalize_name = str(py_file).rpartition('.')[0]
+    config = kaptan.Kaptan(handler='file')
+    config.import_config(normalize_name)
+    assert config.get("PAGINATION.limit") == 20
 
 
 def test_py_file_away_handler(tmpdir, testconfig):
