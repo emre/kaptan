@@ -37,6 +37,7 @@ nosetests.xml
 
 # py.test
 .cache
+.pytest_cache/
 
 .idea
 .idea/*
