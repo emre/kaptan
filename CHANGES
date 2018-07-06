@@ -4,6 +4,18 @@ Changelog
 
 Here you can find the recent changes to kaptan
 
+v0.5.10 (2018-07-06)
+--------------------
+- Update Pipfile
+- Relax pyyaml requirements to <4
+- Support for Python 3.7
+- Prevent test from creating stray .pyc files
+- Update pytest 3.2.3 to 3.6.3
+- Update sphinx 1.6.4 to 1.7.5
+- Update sphinx-argparse 0.2.1 to 0.2.2
+- Update sphinx-rtd-theme 0.2.4 to 0.4.0
+- Add ``make sync_pipfile`` for updating Pipfile
+
 v0.5.9 (2017-10-19)
 -------------------
 
@@ -17,11 +29,5 @@ v0.5.9 (2017-10-19)
 
 .. _pipenv: https://github.com/kennethreitz/pipenv
 .. _tmuxp: https://tmuxp.git-pull.com
-
-CURRENT
--------
-
-- Changelog created
-- Sphinx documents added
 
 .. # vim: set filetype=rst:
