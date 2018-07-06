@@ -1,6 +1,6 @@
 __title__ = 'kaptan'
 __package_name__ = 'kaptan'
-__version__ = '0.5.9'
+__version__ = '0.5.10'
 __description__ = 'Configuration manager'
 __email__ = 'mail@emreyilmaz.me'
 __url__ = 'https://github.com/emre/kaptan'
