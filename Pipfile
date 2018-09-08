@@ -5,11 +5,12 @@ name = "pypi"
 
 [dev-packages]
 sphinx-argparse = "==0.2.2"
-Sphinx = "==1.7.5"
-sphinx_rtd_theme = "==0.4.0"
+Sphinx = "==1.7.9"
+sphinx_rtd_theme = "==0.4.1"
 isort = "==4.3.4"
 "flake8" = "==3.5.0"
-pytest = "==3.6.2"
+pytest = "==3.8.0"
+kaptan = {path = ".", editable = true}
 
 [packages]
 PyYAML = "<4,>=3.13"
