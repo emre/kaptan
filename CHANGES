@@ -4,10 +4,15 @@ Changelog
 
 Here you can find the recent changes to kaptan
 
-Next-release
-------------
+v0.5.11 (2018-12-30)
+--------------------
 - Update dependencies for pytest, sphinx, etc.
 - Forward compatiblity with Python 3.8 ``collections.abc``
+- sphinx-argparse 0.2.2 to 0.2.5
+- Sphinx 1.7.5 to 1.8.3
+- sphinx-rtd-theme 0.4.0 to 0.4.2
+- flake8 3.5.0 to 3.6.0
+- pytest 3.6.2 to 4.0.2
 
 v0.5.10 (2018-07-06)
 --------------------
