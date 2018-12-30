@@ -13,8 +13,8 @@ from __future__ import print_function, unicode_literals
 
 import argparse
 import os
-from collections import Mapping, Sequence
 
+from ._compat import collections_abc
 from .handlers.dict_handler import DictHandler
 from .handlers.pyfile_handler import PyFileHandler
 from .handlers.ini_handler import IniHandler
@@ -95,9 +95,9 @@ class Kaptan(object):
         current_data = self.configuration_data
 
         for chunk in key.split('.'):
-            if isinstance(current_data, Mapping):
+            if isinstance(current_data, collections_abc.Mapping):
                 current_data = current_data[chunk]
-            elif isinstance(current_data, Sequence):
+            elif isinstance(current_data, collections_abc.Sequence):
                 chunk = int(chunk)
 
                 current_data = current_data[chunk]
@@ -162,7 +162,6 @@ def get_parser():
 
 def main():
     from sys import stdin
-    from collections import OrderedDict
 
     parser = get_parser()
     args, ukargs = parser.parse_known_args()
@@ -181,7 +180,7 @@ def main():
                 s += [None]
             yield tuple(s)
 
-    config_handlers = OrderedDict(list(get_handlers()))
+    config_handlers = collections_abc.OrderedDict(list(get_handlers()))
 
     for config_file, handler in config_handlers.items():
         is_stdin = config_file == '-'
