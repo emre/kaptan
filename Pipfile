@@ -16,4 +16,4 @@ kaptan = {editable = true,path = "."}
 PyYAML = "<4,>=3.13"
 
 [requires]
-python_version = "2.7"
+python_version = "3"
