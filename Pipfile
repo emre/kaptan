@@ -5,15 +5,15 @@ name = "pypi"
 
 [dev-packages]
 sphinx-argparse = "==0.2.5"
-Sphinx = "==1.8.3"
-sphinx_rtd_theme = "==0.4.2"
-isort = "==4.3.4"
-flake8 = "==3.6.0"
-pytest = "==4.0.2"
+Sphinx = "==2.0.1"
+isort = "==4.3.15"
+flake8 = "==3.7.5"
+pytest = "==4.3.1"
 kaptan = {editable = true,path = "."}
+sphinx-rtd-theme = "==0.4.3"
 
 [packages]
-PyYAML = "<4,>=3.13"
+PyYAML = ">=3.13,<6"
 
 [requires]
-python_version = "2.7"
+python_version = "3"
