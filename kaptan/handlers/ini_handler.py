@@ -22,6 +22,8 @@ from . import BaseHandler
 
 
 class KaptanIniParser(configparser.RawConfigParser):
+    def from_dict(self, dictionary):
+        self._sections = dictionary
 
     def as_dict(self):
         d = dict(self._sections)
@@ -39,5 +41,10 @@ class IniHandler(BaseHandler):
         config.read_file(StringIO(value))
         return config.as_dict()
 
-    def dump(self, file_):
-        raise NotImplementedError("Exporting .ini files is not supported.")
+    def dump(self, data, file_=None):
+        if file_ is None:
+            raise NotImplementedError("Exporting .ini as string is not supported.")
+        config = KaptanIniParser()
+        config.from_dict(data)
+        with open(file_, 'w') as fp:
+            config.write(fp)
