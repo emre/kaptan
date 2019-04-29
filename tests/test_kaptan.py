@@ -220,6 +220,30 @@ DATABASE_URI = mysql://poor_user:poor_password@localhost/poor_posts
     ) == 'mysql://poor_user:poor_password@localhost/poor_posts'
 
 
+def test_ini_file_dump(tmpdir):
+    testdict = {
+        "development": {
+            "DATABASE_URI": "mysql://root:123456@localhost/posts"
+        },
+        "production": {
+            "DATABASE_URI": "mysql://poor_user:poor_password@localhost/poor_posts"  # NOQA
+        }
+    }
+
+    config = kaptan.Kaptan()
+    config.import_config(testdict)
+
+    ini_file = tmpdir.join('config.ini')
+    config.export('ini', file_=str(ini_file))
+
+    ini_config = kaptan.Kaptan(handler='ini')
+    ini_config.import_config(str(ini_file))
+
+    assert ini_config.get(
+        'production.database_uri'
+    ) == 'mysql://poor_user:poor_password@localhost/poor_posts'
+
+
 def test_py_file_handler(testconfig, tmpdir, monkeypatch):
     py_file = tmpdir.join('config.py')
     py_file.write("""DATABASE = 'mysql://root:123456@localhost/girlz'
