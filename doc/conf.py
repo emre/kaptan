@@ -241,11 +241,10 @@ latex_documents = [
 
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
-man_pages = [
-    ('index', about['__package_name__'], '{0} Documentation'.format(about['__title__']),
-    about['__author__'], 1),
+man_pages= [ 
+    ('manpage.kaptan','kaptan',u'configuration manager in your pocket', +
+       u'Louis-Philippe Veronneau and Javier Ruano'),
 ]
-
 # If true, show URL addresses after external links.
 #man_show_urls = False
 
