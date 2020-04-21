@@ -1,0 +1,85 @@
+Manual page for kaptan
+======================
+
+SYNOPSIS
+--------
+
+usage: kaptan [-h] [--handler HANDLER] [-e EXPORT] [-k KEY] [config_file 
+    [config_file ...]]
+
+Configuration manager in your pocket
+
+positional arguments:
+  config_file           file/s to load config from
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --handler HANDLER     set default handler
+  -e EXPORT, --export EXPORT
+                        set format to export to
+  -k KEY, --key KEY     set config key to get value of
+  
+
+DESCRIPTION
+-----------
+
+kaptan is a configuration parser, It is a converter of configuration
+formats for python and it is also possible to generate files from the 
+command-line interface in the desired format.
+
+They are supported by the following types of file extensions: dict, 
+JSON, YAML, .ini, python file
+
+
+EXAMPLES
+--------
+
+Exporting
+~~~~~~~~~
+    ``$ echo "environment: DEV" > config.yaml`` 
+    ``$ kaptan config.yaml --export json > config.json``
+    ``$ cat config.json``
+    ``{"environment": "DEV"}``
+    
+Getting a value
+~~~~~~~~~~~~~~~
+    ``$ kaptan config.yaml --key environment``
+    ``DEV``
+
+
+Specifying the handler
+~~~~~~~~~~~~~~~~~~~~~~
+    ``$ mv config.yaml config.settings``
+    ``$ kaptan config.settings:yaml --export json``
+    ``{"environment": "DEV"}``
+  
+Config from stdin
+~~~~~~~~~~~~~~~~~
+    ``$ echo '{"source": "stdin"}' | kaptan -``
+    ``{"source": "stdin"}``
+    ``$ echo 'source: stdin' | kaptan -:yaml``
+    ``{"source": "stdin"}``
+
+Mergings config
+~~~~~~~~~~~~~~~
+    ``$ echo "environment: PROD" > config.settings``
+    ``$ echo '{"source": "stdin"}' | kaptan - config.json`` 
+	``	config.settings:yaml``
+    ``{"environment": "PROD", "source": "stdin"}``
+
+Setting default handler
+~~~~~~~~~~~~~~~~~~~~~~~
+    ``$ echo "source: stdin" | kaptan --handler yaml - config.settings``
+    ``{"environment": "PROD", "source": "stdin"}``
+
+Writing json with yaml
+~~~~~~~~~~~~~~~~~~~~~~
+    ``$ kaptan -:yaml -e json``
+    ``<type yaml here>``
+    ``<Ctrl + D>``
+    ``<get json here>``
+
+BUGS
+----
+
+You can report bugs on https://github.com/emre/kaptan/issues/
