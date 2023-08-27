@@ -4,6 +4,12 @@ Changelog
 
 Here you can find the recent changes to kaptan
 
+unreleased
+--------------------
+- Bump pyyaml version to <7
+- Remove version pinning from dev packages
+- Update classifiers to currently supported Python versions
+
 v0.5.12 (2019-04-22)
 --------------------
 - Bump pipenv version to python 3.x
