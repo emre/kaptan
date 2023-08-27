@@ -6,9 +6,12 @@ Here you can find the recent changes to kaptan
 
 unreleased
 --------------------
-- Bump pyyaml version to <7
-- Remove version pinning from dev packages
-- Update classifiers to currently supported Python versions
+
+Packaging updates
+"""""""""""""""""
+- Bump pyyaml version to <7 (#250), thank you @pauloacmartinez
+- Remove version pinning from dev packages (#250)
+- Update classifiers to currently supported Python versions (#250)
 
 v0.5.12 (2019-04-22)
 --------------------
