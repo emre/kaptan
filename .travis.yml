@@ -2,11 +2,11 @@ language: python
 sudo: false
 if: (type = push AND branch IN (master)) OR (type = pull_request)
 python:
-  - "2.7"
-  - "3.4"
-  - "3.5"
-  - "3.6"
-  - "3.7-dev"
+  - "3.7"
+  - "3.8"
+  - "3.9"
+  - "3.10"
+  - "3.11"
 before_install:
   - export PIP_USE_MIRRORS=true
   - pip install --upgrade pytest  # https://github.com/travis-ci/travis-ci/issues/4873
