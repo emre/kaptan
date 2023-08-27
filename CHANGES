@@ -14,9 +14,11 @@ CI
 
 Packaging updates
 """""""""""""""""
-- Bump pyyaml version to <7 (#250), thank you @pauloacmartinez
-- Remove version pinning from dev packages (#250)
-- Update classifiers to currently supported Python versions (#250)
+- Remove upper bound on pyyaml version (#252)
+
+  Development commits also bump pyyaml version to from <6 to <7 (#250), thank you @pauloacmartinez
+- Remove version pinning from dev packages (#250), thank you @pauloacmartinez
+- Update classifiers to currently supported Python versions (#250), thank you @pauloacmartinez
 - Fix classifiers warning (#226) by @sunpoet
 
 v0.5.12 (2019-04-22)
