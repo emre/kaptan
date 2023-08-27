@@ -7,6 +7,11 @@ Here you can find the recent changes to kaptan
 unreleased
 --------------------
 
+CI
+""
+- Add GitHub action CI workflow with `pipenv` and python-version test grid (#251)
+- Remove .travis.yml (#251)
+
 Packaging updates
 """""""""""""""""
 - Bump pyyaml version to <7 (#250), thank you @pauloacmartinez

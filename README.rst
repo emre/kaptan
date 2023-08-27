@@ -258,9 +258,9 @@ see more at https://github.com/emre/kaptan/graphs/contributors.
     :alt: Python Package
     :target: http://badge.fury.io/py/kaptan
 
-.. |build-status| image:: https://img.shields.io/travis/emre/kaptan.svg
+.. |build-status| image:: https://github.com/emre/kaptan/actions/workflows/tests.yml/badge.svg
    :alt: Build Status
-   :target: https://travis-ci.org/emre/kaptan
+   :target: https://github.com/emre/kaptan/actions/workflows/tests.yml
 
 .. |coverage| image:: https://codecov.io/gh/emre/kaptan/branch/master/graph/badge.svg
     :alt: Code Coverage

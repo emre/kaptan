@@ -12,8 +12,10 @@ Sphinx = "*"
 isort = "*"
 flake8 = "*"
 pytest = ">=4.4.1"
-kaptan = {editable = true,path = "."}
+pytest-coverage = "*"
+exceptiongroup = "==1.1.0"
 sphinx-rtd-theme = "*"
+kaptan = {editable = true,path = "."}
 
 [requires]
 python_version = "3"
