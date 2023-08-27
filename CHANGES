@@ -7,6 +7,10 @@ Here you can find the recent changes to kaptan
 v0.6.0 (2023-08-27)
 -------------------
 
+Features
+""""""""
+- .ini export (#160) thank you @onurguzel
+
 CI
 ""
 - Add GitHub action CI workflow with `pipenv` and python-version test grid (#251)
@@ -20,6 +24,11 @@ Packaging updates
 - Remove version pinning from dev packages (#250), thank you @pauloacmartinez
 - Update classifiers to currently supported Python versions (#250), thank you @pauloacmartinez
 - Fix classifiers warning (#226) by @sunpoet
+- Relax pytest version constraint (#163), thank you @ignatenkobrain
+
+Meta
+""""
+- Fix license language to official BSD license (#234)
 
 v0.5.12 (2019-04-22)
 --------------------
