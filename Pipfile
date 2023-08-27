@@ -13,6 +13,7 @@ isort = "*"
 flake8 = "*"
 pytest = ">=4.4.1"
 pytest-coverage = "*"
+exceptiongroup = "==1.1.0"
 kaptan = {editable = true,path = "."}
 sphinx-rtd-theme = "*"
 
