@@ -12,6 +12,7 @@ Packaging updates
 - Bump pyyaml version to <7 (#250), thank you @pauloacmartinez
 - Remove version pinning from dev packages (#250)
 - Update classifiers to currently supported Python versions (#250)
+- Fix classifiers warning (#226) by @sunpoet
 
 v0.5.12 (2019-04-22)
 --------------------
