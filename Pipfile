@@ -12,6 +12,7 @@ Sphinx = "*"
 isort = "*"
 flake8 = "*"
 pytest = ">=4.4.1"
+pytest-coverage = "*"
 kaptan = {editable = true,path = "."}
 sphinx-rtd-theme = "*"
 
