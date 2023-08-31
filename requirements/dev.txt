@@ -1,2 +1,2 @@
 isort
-flake8
+flake8==6.1.0
