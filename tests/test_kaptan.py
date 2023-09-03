@@ -86,6 +86,71 @@ def test_lists_on_configuration():
     assert config.get('servers.0') == 'redis1'
 
 
+def test_add_to_configuration():
+    config = kaptan.Kaptan()
+    config.import_config({
+        'server': 'redis'
+    })
+    config.add('uptime', 99.9)
+
+    assert config.get('uptime') == 99.9
+
+
+def test_add_to_list_on_configuration():
+    config = kaptan.Kaptan()
+    config.import_config({
+        'servers': ['redis1', 'redis2', 'redis3'],
+    })
+    config.add('servers', 'redis4')
+
+    assert config.get('servers.3') == 'redis4'
+
+
+def test_replace_key_on_configuration():
+    config = kaptan.Kaptan()
+    config.import_config({
+        'price': 22
+    })
+    config.add('price', 12.5, True)
+
+    assert config.get('price') == 12.5
+
+
+def test_add_key_with_parent_on_configuration():
+    config = kaptan.Kaptan()
+    config.import_config({
+        'product': 'Test'
+    })
+    config.add('price.currency.name', 'TL')
+
+    assert config.get('price.currency.name') == 'TL'
+
+
+def test_remove_key_from_configuration():
+    config = kaptan.Kaptan()
+    config.import_config({
+        'server': {
+            'name': 'redis',
+            'status': True
+        }
+    })
+    config.remove('server.status')
+
+    assert config.get('server') == {'name': 'redis'}
+
+
+def test_remove_item_from_array_on_configuration():
+    config = kaptan.Kaptan()
+    config.import_config({
+        'price': {
+            'currencies': ['TL', 'EUR', 'USD']
+        }
+    })
+    config.remove('price.currencies', 1)
+
+    assert config.get('price.currencies') == ['TL', 'USD']
+
+
 def test_upsert(testconfig):
     config = kaptan.Kaptan()
     config.import_config(testconfig)

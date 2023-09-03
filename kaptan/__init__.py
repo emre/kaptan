@@ -125,6 +125,48 @@ class Kaptan(object):
                 return default
             raise
 
+    def add(self, key, value=None, replace=False):
+        current_data = self.configuration_data
+        keys = key.split('.')
+        new_key = keys[0]
+        is_key_exist = False
+        if len(keys) > 1:
+            new_key = keys.pop()
+            for chunk in keys:
+                try:
+                    if not replace and new_key in current_data[chunk]:
+                        is_key_exist = True
+                    current_data = current_data[chunk]
+                except KeyError:
+                    current_data[chunk] = {}
+                    current_data = current_data[chunk]
+        try:
+            if replace:
+                current_data[new_key] = value
+            elif isinstance(current_data[new_key], list):
+                current_data[new_key].append(value)
+            elif is_key_exist:
+                raise RuntimeError("Key %s already exist" % new_key)
+        except KeyError as e:
+            current_data[new_key] = value
+
+        return self
+
+    def remove(self, key, index=None):
+        current_data = self.configuration_data
+        keys = key.split('.')
+        exact_key = keys[0]
+        if len(keys) > 1:
+            exact_key = keys.pop()
+        for chunk in keys:
+            current_data = current_data[chunk]
+        if isinstance(index, int) and isinstance(current_data[exact_key], list):
+            current_data[exact_key].pop(index)
+        else:
+            del current_data[exact_key]
+
+        return self
+
     def export(self, handler=None, **kwargs):
         if not handler:
             handler_class = self.handler
